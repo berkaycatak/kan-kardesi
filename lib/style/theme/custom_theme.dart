@@ -384,7 +384,7 @@ class CustomTheme {
         fontSize: 15,
         letterSpacing: 0,
       ),
-      bodySmall: TextStyle(
+      bodySmall: const TextStyle(
         fontFamily: "avenir",
         fontSize: 15,
         color: Colors.grey,

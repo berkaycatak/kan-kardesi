@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:kan_kardesi/screens/auth/login/login_mixin.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
-import 'package:kan_kardesi/utils/components/app/custom_appbar_widget.dart';
 import 'package:kan_kardesi/utils/components/app/custom_card_widget.dart';
 import 'package:kan_kardesi/utils/constants/image/image_constants.dart';
 import 'package:kan_kardesi/utils/helpers/helpers.dart';
