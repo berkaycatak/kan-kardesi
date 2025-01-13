@@ -52,3 +52,28 @@ flutter:
   uses-material-design: true
   assets:
     - assets/icons/
+    - assets/images/
+    
+fonts:
+  - family: avenir
+    fonts:
+      - asset: assets/fonts/avenir/AvenirLTProLight.ttf
+        weight: 200
+
+      - asset: assets/fonts/avenir/AvenirLTProBook.ttf
+        weight: 300
+
+      - asset: assets/fonts/avenir/AvenirLTProRoman.ttf
+        weight: 400
+
+      - asset: assets/fonts/avenir/AvenirLTProMedium.ttf
+        weight: 500
+
+      - asset: assets/fonts/avenir/AvenirLTProHeavy.ttf
+        weight: 600
+
+      - asset: assets/fonts/avenir/AvenirLTProBlack.ttf
+        weight: 700
+
+      - asset: assets/fonts/avenir/AvenirLTProBlack.ttf
+        weight: 800
