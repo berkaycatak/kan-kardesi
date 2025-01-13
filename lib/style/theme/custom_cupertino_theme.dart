@@ -17,6 +17,7 @@ class CustomCupertinoTheme {
   );
 
   static final CupertinoThemeData darkThemeData = CupertinoThemeData(
+    brightness: Brightness.dark,
     primaryColor: CustomTheme.primaryColor,
     scaffoldBackgroundColor: CustomTheme.darkBackgroundColor,
     textTheme: CupertinoTextThemeData(

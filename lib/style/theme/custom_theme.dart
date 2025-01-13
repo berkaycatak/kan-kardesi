@@ -1,8 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kan_kardesi/utils/helpers/helpers.dart';
 
 class CustomTheme {
-  static Color primaryColor = const Color.fromRGBO(236, 86, 68, 1);
+  static Color primaryColor = const Color.fromARGB(255, 255, 17, 0);
   static Color secondaryColor = const Color.fromRGBO(73, 89, 99, 1);
 
   static Color blackColor = const Color.fromRGBO(32, 32, 45, 1);
@@ -123,7 +124,7 @@ class CustomTheme {
   static EdgeInsets screenPadding = const EdgeInsets.all(16);
 
   static final ThemeData themeData = ThemeData(
-    fontFamily: "PlusJakartaSans",
+    fontFamily: "Avenir",
 
     primarySwatch: const MaterialColor(4278235570, {
       50: Color(0xffe5ffff),
@@ -188,7 +189,7 @@ class CustomTheme {
     primaryColorLight: textColor,
     //primaryColorDark: const Color(0xff009899),
     scaffoldBackgroundColor: darkBackgroundColor,
-    cardColor: const Color(0xffffffff),
+    cardColor: CupertinoColors.extraLightBackgroundGray,
     dividerTheme: DividerThemeData(color: textColor.withOpacity(.5)),
     dividerColor: textColor.withOpacity(.5),
     highlightColor: const Color(0x66bcbcbc),
@@ -385,9 +386,9 @@ class CustomTheme {
       ),
       bodySmall: TextStyle(
         fontFamily: "avenir",
-        fontSize: 12,
-        color: blackColor.withOpacity(.7),
-        fontWeight: FontWeight.w400,
+        fontSize: 15,
+        color: Colors.grey,
+        fontWeight: FontWeight.w500,
         letterSpacing: 0,
       ),
     );
