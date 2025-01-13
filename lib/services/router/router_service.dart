@@ -77,7 +77,7 @@ class RouterService {
         },
         routes: <RouteBase>[
           GoRoute(
-            name: "/${routes.welcome}",
+            name: routes.welcome,
             path: routes.welcome,
             pageBuilder: (context, state) {
               return CustomTransitionPage(
@@ -108,46 +108,58 @@ class RouterService {
                   return const LoginScreen();
                 },
               ),
-              StatefulShellRoute.indexedStack(
-                builder: (BuildContext context, GoRouterState state,
-                    StatefulNavigationShell navigationShell) {
-                  return MainScreen(
-                    navigationShell: navigationShell,
-                  );
-                },
-                branches: <StatefulShellBranch>[
-                  StatefulShellBranch(
-                    routes: <RouteBase>[
-                      GoRoute(
-                        name: routes.home,
-                        path: routes.home,
-                        builder: (BuildContext context, GoRouterState state) {
-                          return const HomeScreen();
+            ],
+          ),
+          StatefulShellRoute.indexedStack(
+            builder: (BuildContext context, GoRouterState state,
+                StatefulNavigationShell navigationShell) {
+              return MainScreen(
+                navigationShell: navigationShell,
+              );
+            },
+            branches: <StatefulShellBranch>[
+              StatefulShellBranch(
+                routes: <RouteBase>[
+                  GoRoute(
+                    name: routes.home,
+                    path: routes.home,
+                    pageBuilder: (context, state) {
+                      return CustomTransitionPage(
+                        key: state.pageKey,
+                        child: const HomeScreen(),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          // fastOutSlowIn eğrisini SlideTransition ile uygula
+                          return FadeTransition(
+                            opacity: CurveTween(curve: Curves.easeIn)
+                                .animate(animation),
+                            child: child,
+                          );
                         },
-                      )
-                    ],
+                      );
+                    },
                   ),
-                  StatefulShellBranch(
-                    routes: <RouteBase>[
-                      GoRoute(
-                        name: routes.search,
-                        path: routes.search,
-                        builder: (BuildContext context, GoRouterState state) {
-                          return const SearchScreen();
-                        },
-                      ),
-                    ],
+                ],
+              ),
+              StatefulShellBranch(
+                routes: <RouteBase>[
+                  GoRoute(
+                    name: routes.search,
+                    path: routes.search,
+                    builder: (BuildContext context, GoRouterState state) {
+                      return const SearchScreen();
+                    },
                   ),
-                  StatefulShellBranch(
-                    routes: <RouteBase>[
-                      GoRoute(
-                        name: routes.profile,
-                        path: routes.profile,
-                        builder: (BuildContext context, GoRouterState state) {
-                          return const ProfileScreen();
-                        },
-                      ),
-                    ],
+                ],
+              ),
+              StatefulShellBranch(
+                routes: <RouteBase>[
+                  GoRoute(
+                    name: routes.profile,
+                    path: routes.profile,
+                    builder: (BuildContext context, GoRouterState state) {
+                      return const ProfileScreen();
+                    },
                   ),
                 ],
               ),
