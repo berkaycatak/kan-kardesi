@@ -113,8 +113,22 @@ class RouterService {
           StatefulShellRoute.indexedStack(
             builder: (BuildContext context, GoRouterState state,
                 StatefulNavigationShell navigationShell) {
-              return MainScreen(
-                navigationShell: navigationShell,
+              return AnimatedSwitcher(
+                duration: const Duration(milliseconds: 250),
+                transitionBuilder: (child, animation) {
+                  // CurveTween'i burada tanımlıyoruz
+                  final curvedAnimation =
+                      CurveTween(curve: Curves.ease).animate(animation);
+                  return FadeTransition(
+                    opacity: curvedAnimation,
+                    child: child,
+                  );
+                },
+                child: MainScreen(
+                  navigationShell: navigationShell,
+                  // Benzersiz Key kullanarak her sekmeyi ayırıyoruz
+                  key: ValueKey<int>(navigationShell.currentIndex),
+                ),
               );
             },
             branches: <StatefulShellBranch>[
