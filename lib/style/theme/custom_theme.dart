@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kan_kardesi/utils/helpers/helpers.dart';
 
 class CustomTheme {
-  static Color primaryColor = const Color.fromARGB(255, 255, 17, 0);
+  static Color primaryColor = const Color.fromARGB(255, 244, 58, 37);
   static Color secondaryColor = const Color.fromRGBO(73, 89, 99, 1);
 
   static Color blackColor = const Color.fromRGBO(32, 32, 45, 1);
