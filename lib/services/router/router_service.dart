@@ -8,6 +8,7 @@ import 'package:kan_kardesi/screens/home/home_screen.dart';
 import 'package:kan_kardesi/screens/main/main_screen.dart';
 import 'package:kan_kardesi/screens/profile/profile_screen.dart';
 import 'package:kan_kardesi/screens/search/search_screen.dart';
+import 'package:kan_kardesi/screens/settings/profile/profile_settings_screen.dart';
 import 'package:kan_kardesi/services/router/route_constants.dart';
 
 class RouterService {
@@ -113,22 +114,27 @@ class RouterService {
           StatefulShellRoute.indexedStack(
             builder: (BuildContext context, GoRouterState state,
                 StatefulNavigationShell navigationShell) {
-              return AnimatedSwitcher(
-                duration: const Duration(milliseconds: 250),
-                transitionBuilder: (child, animation) {
-                  // CurveTween'i burada tanımlıyoruz
-                  final curvedAnimation =
-                      CurveTween(curve: Curves.ease).animate(animation);
-                  return FadeTransition(
-                    opacity: curvedAnimation,
-                    child: child,
-                  );
-                },
-                child: MainScreen(
-                  navigationShell: navigationShell,
-                  // Benzersiz Key kullanarak her sekmeyi ayırıyoruz
-                  key: ValueKey<int>(navigationShell.currentIndex),
-                ),
+              // return AnimatedSwitcher(
+              //   duration: const Duration(milliseconds: 250),
+              //   transitionBuilder: (child, animation) {
+              //     // CurveTween'i burada tanımlıyoruz
+              //     final curvedAnimation =
+              //         CurveTween(curve: Curves.ease).animate(animation);
+              //     return FadeTransition(
+              //       opacity: curvedAnimation,
+              //       child: child,
+              //     );
+              //   },
+              //   child: MainScreen(
+              //     navigationShell: navigationShell,
+              //     // Benzersiz Key kullanarak her sekmeyi ayırıyoruz
+              //     key: ValueKey<int>(navigationShell.currentIndex),
+              //   ),
+              // );
+              return MainScreen(
+                navigationShell: navigationShell,
+                // Benzersiz Key kullanarak her sekmeyi ayırıyoruz
+                key: ValueKey<int>(navigationShell.currentIndex),
               );
             },
             branches: <StatefulShellBranch>[
@@ -174,6 +180,15 @@ class RouterService {
                     builder: (BuildContext context, GoRouterState state) {
                       return const ProfileScreen();
                     },
+                    routes: [
+                      GoRoute(
+                        name: routes.profile_settings,
+                        path: routes.profile_settings,
+                        builder: (BuildContext context, GoRouterState state) {
+                          return const ProfileSettingsScreen();
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),

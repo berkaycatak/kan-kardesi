@@ -93,7 +93,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   "Düzenle",
                 ),
                 onPressed: () {
-                  // navigate to edit profile screen
+                  RouterService.goNamed(
+                    context: context,
+                    route: RouteConstants().profile_settings,
+                  );
                 },
               ),
             ],
