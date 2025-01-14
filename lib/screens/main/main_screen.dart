@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kan_kardesi/screens/home/home_screen.dart';
 import 'package:kan_kardesi/screens/main/main_mixin.dart';
 import 'package:kan_kardesi/services/router/router_service.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
@@ -97,6 +96,7 @@ class _MainScreenState extends State<MainScreen> with MainMixin {
             return CupertinoTabView(
               builder: (_) {
                 // Her sekme içeriği için farklı widget döndür
+                // return widget.navigationShell.shellRouteContext;
                 return screens[widget.navigationShell.currentIndex];
               },
             );
