@@ -96,8 +96,8 @@ class _MainScreenState extends State<MainScreen> with MainMixin {
             return CupertinoTabView(
               builder: (_) {
                 // Her sekme içeriği için farklı widget döndür
-                // return widget.navigationShell.shellRouteContext;
-                return screens[widget.navigationShell.currentIndex];
+                return widget.navigationShell;
+                // return screens[widget.navigationShell.currentIndex];
               },
             );
           },
