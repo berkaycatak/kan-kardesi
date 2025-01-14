@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: const Color.fromRGBO(238, 238, 243, 1),
       appBar: customAppBar(
         context,
-        title: "Anasayfa",
+        title: "Kan Kardeşi",
         canPop: false,
         actions: [
           PlatformIconButton(

@@ -35,8 +35,8 @@ class DonationCardWidget extends StatelessWidget {
               donationCardInfoWidget(
                 context: context,
                 icon: Icons.local_hospital,
-                title: "Hastane",
-                subtitle: "Sakarya Eğitim ve Araştırma Hastanesi",
+                title: "Şehir",
+                subtitle: "İstanbul",
               ),
               const SizedBox(height: 6),
               donationCardInfoWidget(
