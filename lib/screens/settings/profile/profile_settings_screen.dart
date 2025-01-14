@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:kan_kardesi/screens/settings/profile/profile_settings_mixin.dart';
+import 'package:kan_kardesi/services/router/router_service.dart';
 
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
 import 'package:kan_kardesi/utils/components/app/custom_appbar_widget.dart';
@@ -110,56 +111,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen>
               ),
             ),
           ),
-          const SizedBox(height: 10),
-          Text(
-            "Parola",
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall!
-                .copyWith(color: Colors.black),
-          ),
-          const SizedBox(height: 4),
-          Card(
-            child: PlatformTextFormField(
-              controller: passwordController,
-              focusNode: passwordFocusNode,
-              keyboardType: TextInputType.visiblePassword,
-              hintText: "Parola girin.",
-              obscureText: true,
-              autofillHints: const [AutofillHints.password],
-              textInputAction: TextInputAction.next,
-              onFieldSubmitted: (value) => rePasswordFocusNode.requestFocus(),
-              validator: (val) => Helpers.isEmpty(
-                val,
-                "Lütfen parola girin",
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            "Parola Tekrar",
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall!
-                .copyWith(color: Colors.black),
-          ),
-          const SizedBox(height: 4),
-          Card(
-            child: PlatformTextFormField(
-              controller: rePasswordController,
-              focusNode: rePasswordFocusNode,
-              keyboardType: TextInputType.visiblePassword,
-              hintText: "Parolanzı onaylayın.",
-              obscureText: true,
-              autofillHints: const [AutofillHints.password],
-              textInputAction: TextInputAction.send,
-              onFieldSubmitted: (value) => updateProfile(context),
-              validator: (val) => Helpers.isEmpty(
-                val,
-                "Lütfen parolanızı tekrar girin",
-              ),
-            ),
-          ),
           const SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
@@ -173,7 +124,10 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen>
             child: PlatformTextButton(
               padding: EdgeInsets.zero,
               onPressed: () {
-                // TODO: Implement password settings
+                RouterService.goNamed(
+                  context: context,
+                  route: RouterService.routes.password_settings,
+                );
               },
               child: const Text("Parola Ayarları"),
             ),
