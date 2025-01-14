@@ -8,6 +8,7 @@ import 'package:kan_kardesi/screens/home/home_screen.dart';
 import 'package:kan_kardesi/screens/main/main_screen.dart';
 import 'package:kan_kardesi/screens/profile/profile_screen.dart';
 import 'package:kan_kardesi/screens/search/search_screen.dart';
+import 'package:kan_kardesi/screens/settings/password/password_settings_screen.dart';
 import 'package:kan_kardesi/screens/settings/profile/profile_settings_screen.dart';
 import 'package:kan_kardesi/services/router/route_constants.dart';
 
@@ -187,6 +188,16 @@ class RouterService {
                         builder: (BuildContext context, GoRouterState state) {
                           return const ProfileSettingsScreen();
                         },
+                        routes: [
+                          GoRoute(
+                            name: routes.password_settings,
+                            path: routes.password_settings,
+                            builder:
+                                (BuildContext context, GoRouterState state) {
+                              return const PasswordSettingsScreen();
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),
