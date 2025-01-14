@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:kan_kardesi/screens/profile/profile_mixin.dart';
 import 'package:kan_kardesi/services/router/route_constants.dart';
 import 'package:kan_kardesi/services/router/router_service.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
@@ -12,14 +13,29 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen> with ProfileMixin {
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(
       iosContentBottomPadding: true,
       iosContentPadding: true,
       backgroundColor: const Color.fromRGBO(238, 238, 243, 1),
-      appBar: customAppBar(context, title: 'Profil', canPop: false),
+      appBar: customAppBar(
+        context,
+        title: 'Profil',
+        canPop: false,
+        actions: [
+          PlatformIconButton(
+            padding: EdgeInsets.zero,
+            onPressed: () => logout(context),
+            icon: const Icon(
+              Icons.logout,
+              color: Colors.white,
+              size: 24,
+            ),
+          )
+        ],
+      ),
       body: ListView(
         padding: CustomTheme.screenPadding,
         children: [
