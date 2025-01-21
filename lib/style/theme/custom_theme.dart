@@ -346,6 +346,7 @@ class CustomTheme {
         color: Colors.black,
         fontSize: 28,
         letterSpacing: 0,
+        wordSpacing: 0,
       ),
       titleMedium: TextStyle(
         fontFamily: "avenir",
@@ -353,6 +354,7 @@ class CustomTheme {
         fontWeight: FontWeight.w700,
         fontSize: 16,
         letterSpacing: 0,
+        wordSpacing: 0,
         // fontWeight: FontWeight.w700,
         // fontSize: 16,
       ),
@@ -362,6 +364,7 @@ class CustomTheme {
         fontWeight: FontWeight.w600,
         fontSize: 17,
         letterSpacing: 0,
+        wordSpacing: 0,
       ),
       labelMedium: TextStyle(
         fontFamily: "avenir",
@@ -369,6 +372,7 @@ class CustomTheme {
         fontWeight: FontWeight.w400,
         fontSize: 15,
         letterSpacing: 0,
+        wordSpacing: 0,
       ),
       bodyMedium: TextStyle(
         fontFamily: "avenir",
@@ -383,6 +387,7 @@ class CustomTheme {
         fontWeight: FontWeight.w500,
         fontSize: 15,
         letterSpacing: 0,
+        wordSpacing: 0,
       ),
       bodySmall: const TextStyle(
         fontFamily: "avenir",
@@ -390,6 +395,7 @@ class CustomTheme {
         color: Colors.grey,
         fontWeight: FontWeight.w500,
         letterSpacing: 0,
+        wordSpacing: 0,
       ),
     );
   }
