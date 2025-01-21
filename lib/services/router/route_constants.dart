@@ -7,6 +7,10 @@ class RouteConstants {
   String register = '/register';
 
   String home = '/home';
+
+  // String blog = '/blog';
+  String blog_detail = '/blog/detail';
+
   String search = '/search';
   String profile = '/profile';
   String profile_settings = '/profile/settings';

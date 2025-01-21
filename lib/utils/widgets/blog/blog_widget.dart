@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:kan_kardesi/services/router/route_constants.dart';
+import 'package:kan_kardesi/services/router/router_service.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
 import 'package:kan_kardesi/utils/constants/image/image_constants.dart';
 
@@ -11,7 +13,12 @@ class BlogWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PlatformTextButton(
-      onPressed: () {},
+      onPressed: () {
+        RouterService.goNamed(
+          context: context,
+          route: RouteConstants().blog_detail,
+        );
+      },
       padding: EdgeInsets.zero,
       child: SizedBox(
         width: double.infinity,
