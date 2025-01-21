@@ -4,6 +4,7 @@ import 'package:kan_kardesi/screens/auth/login/login_screen.dart';
 import 'package:kan_kardesi/screens/auth/register/register_screen.dart';
 import 'package:kan_kardesi/screens/auth/splash/splash_screen.dart';
 import 'package:kan_kardesi/screens/auth/welcome/welcome_screen.dart';
+import 'package:kan_kardesi/screens/blog/detail/blog_detail_screen.dart';
 import 'package:kan_kardesi/screens/home/home_screen.dart';
 import 'package:kan_kardesi/screens/main/main_screen.dart';
 import 'package:kan_kardesi/screens/profile/profile_screen.dart';
@@ -159,6 +160,15 @@ class RouterService {
                         },
                       );
                     },
+                    routes: [
+                      GoRoute(
+                        name: routes.blog_detail,
+                        path: routes.blog_detail,
+                        builder: (BuildContext context, GoRouterState state) {
+                          return const BlogDetailScreen();
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),
