@@ -69,8 +69,12 @@ class _ProfileScreenState extends State<ProfileScreen> with ProfileMixin {
           Card(
             child: Padding(
               padding: CustomTheme.screenPadding,
-              child: const Text(
-                  "İhtiyaç duyurunuz bulunmuyor. Sağlıklı günler dileriz. ❤️"),
+              child: Text(
+                "İhtiyaç duyurunuz bulunmuyor. ❤️ Sağlıklı günler dileriz.",
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: 15,
+                    ),
+              ),
             ),
           )
         ],

@@ -149,7 +149,12 @@ class _HomeScreenState extends State<HomeScreen> {
       required Color backgroundColor,
       required Color foregroundColor}) {
     return PlatformTextButton(
-      onPressed: () {},
+      onPressed: () {
+        RouterService.goNamed(
+          context: context,
+          route: RouteConstants().search,
+        );
+      },
       padding: EdgeInsets.zero,
       child: Card(
         child: Padding(

@@ -30,15 +30,22 @@ class _WelcomeScreenState extends State<WelcomeScreen> with WelcomeMixin {
                 children: [
                   Text(
                     "Bağışçı Ol!\nBağışçılara Ulaş!",
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(fontSize: 38),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 10),
                   Text(
                     "Çevrende kan bağışına mı ihtiyaç var?\nBağışçıları gör, talebini paylaş ve insanlara ulaş!",
-                    style: Theme.of(context).textTheme.bodyMedium,
                     textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontSize: 16),
                   ),
+                  const SizedBox(height: 20),
                 ],
               ),
               Column(
