@@ -45,6 +45,8 @@ dependencies:
 
 dev_dependencies:
   flutter_lints: ^4.0.0
+  rename_app: ^1.6.2
+  flutter_launcher_icons: ^0.14.3
   flutter_test:
     sdk: flutter
 
@@ -80,3 +82,9 @@ fonts:
 
       - asset: assets/fonts/avenir/AvenirLTProBlack.ttf
         weight: 800
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+  min_sdk_android: 21

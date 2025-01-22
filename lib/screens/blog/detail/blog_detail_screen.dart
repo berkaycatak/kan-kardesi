@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
 import 'package:kan_kardesi/utils/components/app/custom_appbar_widget.dart';
-import 'package:kan_kardesi/utils/constants/image/image_constants.dart';
 
 class BlogDetailScreen extends StatefulWidget {
   const BlogDetailScreen({super.key});
