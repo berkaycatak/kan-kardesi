@@ -114,10 +114,10 @@ class _MainScreenState extends State<MainScreen> with MainMixin {
     return Icon(icon);
   }
 
-  unselectedItemColor(BuildContext context) => context.isDarkMode()
+  Color unselectedItemColor(BuildContext context) => context.isDarkMode()
       ? const Color.fromRGBO(110, 110, 110, 1)
       : const Color.fromRGBO(149, 149, 149, 1);
 
-  selectedItemColor(BuildContext context) =>
+  Color selectedItemColor(BuildContext context) =>
       context.isDarkMode() ? Colors.white : CustomTheme.primaryColor;
 }

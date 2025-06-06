@@ -126,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                "Merhaba Kerem,",
+                "Merhaba Berkay,",
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 4),

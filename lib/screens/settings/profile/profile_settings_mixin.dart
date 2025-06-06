@@ -23,7 +23,7 @@ mixin ProfileSettingsMixin {
     type: MaskAutoCompletionType.lazy,
   );
 
-  String? phoneValidator(val) {
+  String? phoneValidator(String? val) {
     String? validate = Helpers.isEmpty(
       val,
       "Lütfen telefon numarası girin",

@@ -21,6 +21,7 @@ class DonationCardWidget extends StatelessWidget {
       padding: EdgeInsets.zero,
       onPressed: () {
         showBarModalBottomSheet(
+          useRootNavigator: true,
           context: context,
           builder: (context) => const DonationDetailScreen(),
         );
@@ -137,7 +138,7 @@ class DonationCardWidget extends StatelessWidget {
     );
   }
 
-  call() {
+  void call() {
     if (kDebugMode) {
       print("call");
     }

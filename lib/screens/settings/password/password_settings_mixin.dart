@@ -11,7 +11,7 @@ mixin PasswordSettingsMixin {
   FocusNode passwordFocusNode = FocusNode();
   FocusNode rePasswordFocusNode = FocusNode();
 
-  String? validatePassword(val) {
+  String? validatePassword(String? val) {
     String? message = Helpers.isEmpty(
       val,
       "Lütfen parolanızı tekrar girin",

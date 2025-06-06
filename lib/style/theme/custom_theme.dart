@@ -153,8 +153,12 @@ class CustomTheme {
     unselectedWidgetColor: const Color(0x8a000000),
     disabledColor: const Color(0x61000000),
     secondaryHeaderColor: const Color(0xffe5ffff),
-    dialogBackgroundColor: const Color(0xffffffff),
-    indicatorColor: const Color(0xff00feff),
+    dialogTheme: DialogThemeData(
+      backgroundColor: const Color(0xffffffff),
+    ),
+    progressIndicatorTheme: ProgressIndicatorThemeData(
+      stopIndicatorColor: const Color(0xff00feff),
+    ),
     hintColor: const Color(0x8a000000),
     // SnackBar
     snackBarTheme: snackBarThemeData(),
@@ -285,13 +289,13 @@ class CustomTheme {
     ),
   );
 
-  static snackBarThemeData() {
+  static SnackBarThemeData snackBarThemeData() {
     return SnackBarThemeData(
       backgroundColor: primaryColor,
     );
   }
 
-  static inputDecorationTheme() {
+  static InputDecorationTheme inputDecorationTheme() {
     return InputDecorationTheme(
       contentPadding: const EdgeInsets.symmetric(
         horizontal: 15,
@@ -419,8 +423,8 @@ class CustomTheme {
     );
   }
 
-  static CardTheme cardTheme() {
-    return CardTheme(
+  static CardThemeData cardTheme() {
+    return CardThemeData(
       margin: EdgeInsets.zero,
       elevation: 0,
       color: Colors.white,
