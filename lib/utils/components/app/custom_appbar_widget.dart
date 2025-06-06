@@ -17,7 +17,12 @@ PlatformAppBar customAppBar(
   return PlatformAppBar(
     automaticallyImplyLeading: automaticallyImplyLeading,
     material: material,
-    cupertino: cupertino,
+    cupertino: cupertino ??
+        (context, platform) {
+          return CupertinoNavigationBarData(
+            automaticBackgroundVisibility: false,
+          );
+        },
     backgroundColor: CustomTheme.primaryColor.withOpacity(.9),
     trailingActions: actions,
     leading: leading ??

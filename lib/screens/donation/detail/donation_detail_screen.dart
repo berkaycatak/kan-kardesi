@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
@@ -14,22 +16,17 @@ class DonationDetailScreen extends StatefulWidget {
 class _DonationDetailScreenState extends State<DonationDetailScreen> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: PlatformScaffold(
-        backgroundColor: const Color.fromRGBO(238, 238, 243, 1),
-        iosContentPadding: true,
-        appBar: customAppBar(
-          context,
-          title: "Bağış Detayı",
-        ),
-        body: Padding(
-          padding: CustomTheme.screenPadding,
-          child: const Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              DonationCardWidget(isDetail: true),
-            ],
-          ),
+    return PlatformScaffold(
+      backgroundColor: const Color.fromRGBO(238, 238, 243, 1),
+      iosContentPadding: true,
+      body: Padding(
+        padding: CustomTheme.screenPadding,
+        child: const Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            DonationCardWidget(isDetail: true),
+            SizedBox(height: 40),
+          ],
         ),
       ),
     );
