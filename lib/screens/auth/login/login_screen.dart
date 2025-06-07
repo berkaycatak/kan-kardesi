@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-<<<<<<< Updated upstream
-=======
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:kan_kardesi/screens/auth/login/login_mixin.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
@@ -10,7 +8,6 @@ import 'package:kan_kardesi/utils/enums/reponse_status_enums.dart';
 import 'package:kan_kardesi/utils/helpers/helpers.dart';
 import 'package:kan_kardesi/view_models/auth/auth_view_model.dart';
 import 'package:provider/provider.dart';
->>>>>>> Stashed changes
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -22,9 +19,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> with LoginMixin {
   @override
   Widget build(BuildContext context) {
-<<<<<<< Updated upstream
-    return const Placeholder();
-=======
     AuthViewModel authViewModel = Provider.of<AuthViewModel>(context);
 
     return GestureDetector(
@@ -147,6 +141,5 @@ class _LoginScreenState extends State<LoginScreen> with LoginMixin {
         ],
       ),
     );
->>>>>>> Stashed changes
   }
 }

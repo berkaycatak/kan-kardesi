@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-<<<<<<< Updated upstream
-=======
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:kan_kardesi/screens/search/search_mixin.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
@@ -11,7 +9,6 @@ import 'package:kan_kardesi/utils/components/selector/input_selector_widget.dart
 import 'package:kan_kardesi/utils/widgets/search/search_widget.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_down_button/pull_down_button.dart';
->>>>>>> Stashed changes
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -23,9 +20,6 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> with SearchMixin {
   @override
   Widget build(BuildContext context) {
-<<<<<<< Updated upstream
-    return const Placeholder();
-=======
     return PlatformScaffold(
       iosContentPadding: true,
       backgroundColor: const Color.fromRGBO(238, 238, 243, 1),
@@ -160,6 +154,5 @@ class _SearchScreenState extends State<SearchScreen> with SearchMixin {
         );
       },
     );
->>>>>>> Stashed changes
   }
 }

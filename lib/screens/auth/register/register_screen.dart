@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-<<<<<<< Updated upstream
-=======
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:kan_kardesi/models/blood/blood_type_model.dart';
 import 'package:kan_kardesi/screens/auth/register/register_mixin.dart';
@@ -15,7 +13,6 @@ import 'package:kan_kardesi/utils/enums/reponse_status_enums.dart';
 import 'package:kan_kardesi/utils/helpers/helpers.dart';
 import 'package:kan_kardesi/view_models/auth/auth_view_model.dart';
 import 'package:provider/provider.dart';
->>>>>>> Stashed changes
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -27,9 +24,6 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> with RegisterMixin {
   @override
   Widget build(BuildContext context) {
-<<<<<<< Updated upstream
-    return const Placeholder();
-=======
     AuthViewModel authViewModel = Provider.of<AuthViewModel>(context);
 
     return GestureDetector(
@@ -238,6 +232,5 @@ class _RegisterScreenState extends State<RegisterScreen> with RegisterMixin {
         ],
       ),
     );
->>>>>>> Stashed changes
   }
 }
