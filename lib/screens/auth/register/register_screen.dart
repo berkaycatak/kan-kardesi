@@ -24,7 +24,7 @@ class RegisterScreen extends StatefulWidget {
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends State<RegisterScreen> with RegisterMixin {
   @override
   Widget build(BuildContext context) {
 <<<<<<< Updated upstream

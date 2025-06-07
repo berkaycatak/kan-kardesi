@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 <<<<<<< Updated upstream
 =======
@@ -18,7 +20,7 @@ class SearchScreen extends StatefulWidget {
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _SearchScreenState extends State<SearchScreen> with SearchMixin {
   @override
   Widget build(BuildContext context) {
 <<<<<<< Updated upstream

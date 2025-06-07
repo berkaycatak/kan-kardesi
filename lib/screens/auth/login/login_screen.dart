@@ -19,7 +19,7 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen> with LoginMixin {
   @override
   Widget build(BuildContext context) {
 <<<<<<< Updated upstream

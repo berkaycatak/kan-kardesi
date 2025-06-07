@@ -3,18 +3,24 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kan_kardesi/screens/main/main_mixin.dart';
 import 'package:kan_kardesi/services/router/router_service.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
 import 'package:kan_kardesi/utils/helpers/helpers.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   const MainScreen({
     required this.navigationShell,
-    Key? key,
-  }) : super(key: key ?? const ValueKey<String>('MainScreen'));
+    super.key,
+  });
 
   final StatefulNavigationShell navigationShell;
 
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> with MainMixin {
   @override
   Widget build(BuildContext context) {
     if (kDebugMode) {
@@ -31,12 +37,11 @@ class MainScreen extends StatelessWidget {
       child: PlatformScaffold(
         iosContentPadding: true,
         body: CupertinoTabScaffold(
-          key: UniqueKey(),
           tabBar: CupertinoTabBar(
             activeColor:
                 context.isDarkMode() ? Colors.white : CustomTheme.primaryColor,
             onTap: (int tappedIndex) async {
-              if (navigationShell.currentIndex == tappedIndex) {
+              if (widget.navigationShell.currentIndex == tappedIndex) {
                 String routePath = "";
                 switch (tappedIndex) {
                   case 0:
@@ -45,8 +50,9 @@ class MainScreen extends StatelessWidget {
                   case 1:
                     routePath = RouterService.routes.search;
                     break;
-                  case 3:
+                  case 2:
                     routePath = RouterService.routes.profile;
+                    break;
                 }
 
                 RouterService.goNamed(
@@ -54,10 +60,10 @@ class MainScreen extends StatelessWidget {
                   route: routePath,
                 );
               } else {
-                navigationShell.goBranch(tappedIndex);
+                widget.navigationShell.goBranch(tappedIndex);
               }
             },
-            currentIndex: navigationShell.currentIndex,
+            currentIndex: widget.navigationShell.currentIndex,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: bottomBarIconWidget(
@@ -80,7 +86,7 @@ class MainScreen extends StatelessWidget {
                 icon: bottomBarIconWidget(
                   context: context,
                   icon: Icons.account_circle,
-                  index: 3,
+                  index: 2,
                 ),
                 label: 'Profil',
               ),
@@ -89,7 +95,9 @@ class MainScreen extends StatelessWidget {
           tabBuilder: (context, index) {
             return CupertinoTabView(
               builder: (_) {
-                return navigationShell;
+                // Her sekme içeriği için farklı widget döndür
+                return widget.navigationShell;
+                // return screens[widget.navigationShell.currentIndex];
               },
             );
           },
@@ -104,19 +112,12 @@ class MainScreen extends StatelessWidget {
     required IconData icon,
   }) {
     return Icon(icon);
-    // return svgIcon(
-    //   icon: icon,
-    //   height: 20,
-    //   color: navigationShell.currentIndex == index
-    //       ? selectedItemColor(context)
-    //       : unselectedItemColor(context),
-    // );
   }
 
-  unselectedItemColor(BuildContext context) => context.isDarkMode()
+  Color unselectedItemColor(BuildContext context) => context.isDarkMode()
       ? const Color.fromRGBO(110, 110, 110, 1)
       : const Color.fromRGBO(149, 149, 149, 1);
 
-  selectedItemColor(BuildContext context) =>
+  Color selectedItemColor(BuildContext context) =>
       context.isDarkMode() ? Colors.white : CustomTheme.primaryColor;
 }
