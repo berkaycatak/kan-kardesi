@@ -1,0 +1,4 @@
+enum NotificationEnum {
+  openRequestDetail,
+  openBlogDetail,
+}

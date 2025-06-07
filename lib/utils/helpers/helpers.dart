@@ -1,6 +1,8 @@
 // ignore_for_file: depend_on_referenced_packages, use_build_context_synchronously
 
+import 'dart:convert';
 import 'dart:io';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
@@ -105,14 +107,9 @@ class Helpers {
     }
   }
 
-  // static CustomIcons getDynamicIcon(String apiIconName) {
-  //   apiIconName = apiIconName.replaceAll("-", "");
-  //   CustomIcons? customIcon = CustomIcons.values.firstWhere(
-  //     (icon) => icon.toString() == 'CustomIcons.$apiIconName',
-  //     orElse: () => CustomIcons.category,
-  //   );
-  //   return customIcon;
-  // }
+  static String stringToMd5(String input) {
+    return md5.convert(utf8.encode(input)).toString();
+  }
 
   static String? isEmpty(val, message) {
     if (val == null || val.isEmpty) {
