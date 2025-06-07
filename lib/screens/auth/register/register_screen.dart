@@ -1,10 +1,18 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:kan_kardesi/models/blood/blood_type_model.dart';
 import 'package:kan_kardesi/screens/auth/register/register_mixin.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
 import 'package:kan_kardesi/utils/components/app/custom_card_widget.dart';
+import 'package:kan_kardesi/utils/components/blood/blood_selector_widget.dart';
 import 'package:kan_kardesi/utils/constants/image/image_constants.dart';
+import 'package:kan_kardesi/utils/enums/reponse_status_enums.dart';
 import 'package:kan_kardesi/utils/helpers/helpers.dart';
+import 'package:kan_kardesi/view_models/auth/auth_view_model.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -16,6 +24,8 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> with RegisterMixin {
   @override
   Widget build(BuildContext context) {
+    AuthViewModel authViewModel = Provider.of<AuthViewModel>(context);
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: PlatformScaffold(
@@ -24,7 +34,6 @@ class _RegisterScreenState extends State<RegisterScreen> with RegisterMixin {
         iosContentPadding: true,
         body: SingleChildScrollView(
           child: SizedBox(
-            height: MediaQuery.of(context).size.height / 1.15,
             child: Padding(
               padding: CustomTheme.screenPadding,
               child: Column(
@@ -55,8 +64,14 @@ class _RegisterScreenState extends State<RegisterScreen> with RegisterMixin {
                       SizedBox(
                         width: double.infinity,
                         child: PlatformElevatedButton(
-                          onPressed: () => register(context),
-                          child: const Text("Kayıt Ol"),
+                          onPressed: authViewModel.currentStatus ==
+                                  ResponseStatus.loading
+                              ? null
+                              : () => register(context),
+                          child: authViewModel.currentStatus ==
+                                  ResponseStatus.loading
+                              ? CircularProgressIndicator.adaptive()
+                              : const Text("Kayıt Ol"),
                         ),
                       ),
                       // Center(
@@ -93,7 +108,8 @@ class _RegisterScreenState extends State<RegisterScreen> with RegisterMixin {
             child: PlatformTextFormField(
               controller: nameController,
               focusNode: nameFocusNode,
-              keyboardType: TextInputType.name,
+              keyboardType: TextInputType.text,
+              textCapitalization: TextCapitalization.words,
               hintText: "Adınızı ve soyadınızı girin.",
               autofillHints: const [AutofillHints.name],
               textInputAction: TextInputAction.next,
@@ -102,6 +118,30 @@ class _RegisterScreenState extends State<RegisterScreen> with RegisterMixin {
                 val,
                 "Lütfen ad soyad girin",
               ),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            "Kan Grubu",
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          const SizedBox(height: 4),
+          CustomCard(
+            child: BloodSelectorWidget(
+              useDecoration: false,
+              textStyle: TextStyle(
+                fontSize: Platform.isIOS
+                    ? Theme.of(context).textTheme.titleMedium?.fontSize
+                    : 14,
+                fontWeight: Platform.isAndroid ? FontWeight.w500 : null,
+                color: Platform.isIOS
+                    ? CupertinoColors.tertiaryLabel
+                    : Colors.black45,
+              ),
+              onSelected: (BloodTypeModel type) {
+                selectedBloodType = type;
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
             ),
           ),
           const SizedBox(height: 10),

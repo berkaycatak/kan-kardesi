@@ -4,7 +4,10 @@ import 'package:kan_kardesi/screens/auth/login/login_mixin.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
 import 'package:kan_kardesi/utils/components/app/custom_card_widget.dart';
 import 'package:kan_kardesi/utils/constants/image/image_constants.dart';
+import 'package:kan_kardesi/utils/enums/reponse_status_enums.dart';
 import 'package:kan_kardesi/utils/helpers/helpers.dart';
+import 'package:kan_kardesi/view_models/auth/auth_view_model.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,6 +19,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> with LoginMixin {
   @override
   Widget build(BuildContext context) {
+    AuthViewModel authViewModel = Provider.of<AuthViewModel>(context);
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: PlatformScaffold(
@@ -55,8 +60,14 @@ class _LoginScreenState extends State<LoginScreen> with LoginMixin {
                       SizedBox(
                         width: double.infinity,
                         child: PlatformElevatedButton(
-                          onPressed: () => login(context),
-                          child: const Text("Giriş Yap"),
+                          onPressed: authViewModel.currentStatus ==
+                                  ResponseStatus.loading
+                              ? null
+                              : () => login(context),
+                          child: authViewModel.currentStatus ==
+                                  ResponseStatus.loading
+                              ? CircularProgressIndicator.adaptive()
+                              : const Text("Giriş Yap"),
                         ),
                       ),
                       // Center(

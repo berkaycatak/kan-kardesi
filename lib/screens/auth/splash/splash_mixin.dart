@@ -2,7 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kan_kardesi/models/user/user_model.dart';
 import 'package:kan_kardesi/services/router/route_constants.dart';
+import 'package:kan_kardesi/view_models/auth/auth_view_model.dart';
+import 'package:provider/provider.dart';
 
 mixin SplashMixin {
   late AnimationController controller;
@@ -50,7 +53,14 @@ mixin SplashMixin {
   Future<void> _simulateApiRequest(BuildContext context) async {
     // API isteği simülasyonu
 
-    await Future.delayed(const Duration(seconds: 2));
+    AuthViewModel authViewModel = Provider.of<AuthViewModel>(
+      context,
+      listen: false,
+    );
+
+    UserModel? userModel = await authViewModel.splash(context);
+
+    await Future.delayed(const Duration(milliseconds: 400));
 
     // Döngüyü durdur ve son animasyonu başlat
     controller.stop();
@@ -65,6 +75,13 @@ mixin SplashMixin {
     ); // Son animasyon süresi
     controller.forward();
     await Future.delayed(const Duration(milliseconds: 250));
+
+    if (userModel != null) {
+      // Kullanıcı zaten giriş yapmışsa, ana sayfaya yönlendir
+      GoRouter.of(context).pushReplacementNamed(RouteConstants().home);
+      return;
+    }
+
     GoRouter.of(context).pushReplacementNamed(RouteConstants().welcome);
   }
 }

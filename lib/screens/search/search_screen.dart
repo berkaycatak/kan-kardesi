@@ -5,6 +5,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:kan_kardesi/screens/search/search_mixin.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
 import 'package:kan_kardesi/utils/components/app/custom_appbar_widget.dart';
+import 'package:kan_kardesi/utils/components/selector/input_selector_widget.dart';
 import 'package:kan_kardesi/utils/widgets/search/search_widget.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_down_button/pull_down_button.dart';
@@ -41,10 +42,7 @@ class _SearchScreenState extends State<SearchScreen> with SearchMixin {
                   else
                     androidCitySelector(),
                   const SizedBox(height: 10),
-                  if (Platform.isIOS)
-                    iosBloodSelector()
-                  else
-                    androidBloodSelector(),
+                  // BloodSelectorWidget(),
                   const SizedBox(height: 16),
                   SizedBox(
                     width: double.infinity,
@@ -70,10 +68,7 @@ class _SearchScreenState extends State<SearchScreen> with SearchMixin {
                   else
                     androidCitySelector(),
                   const SizedBox(height: 10),
-                  if (Platform.isIOS)
-                    iosBloodSelector()
-                  else
-                    androidBloodSelector(),
+                  // BloodSelectorWidget(),
                   const SizedBox(height: 10),
                   Container(
                     decoration: selectorDecoration(),
@@ -112,52 +107,6 @@ class _SearchScreenState extends State<SearchScreen> with SearchMixin {
           ],
         ),
       ),
-    );
-  }
-
-  PullDownButton iosBloodSelector() {
-    return PullDownButton(
-      menuOffset: 1,
-      useRootNavigator: true,
-      itemBuilder: (context) => [
-        for (var i = 0; i < 10; i++)
-          PullDownMenuItem(
-            title: 'A Rh+',
-            onTap: () {},
-          ),
-      ],
-      buttonBuilder: (context, showMenu) => inputSelector(
-        title: "Kan grubu seçin",
-        onPressed: showMenu,
-      ),
-    );
-  }
-
-  Widget androidBloodSelector() {
-    return inputSelector(
-      title: "Kan grubu seçin",
-      onPressed: () {
-        return showBarModalBottomSheet(
-          useRootNavigator: true,
-          context: context,
-          builder: (context) {
-            return SizedBox(
-              height: MediaQuery.of(context).size.height / 1.5,
-              child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: const Text("A Rh+"),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                  );
-                },
-              ),
-            );
-          },
-        );
-      },
     );
   }
 
@@ -204,44 +153,6 @@ class _SearchScreenState extends State<SearchScreen> with SearchMixin {
           },
         );
       },
-    );
-  }
-
-  PlatformTextButton inputSelector({
-    required String title,
-    required Future<void> Function() onPressed,
-  }) {
-    return PlatformTextButton(
-      padding: EdgeInsets.zero,
-      onPressed: onPressed,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: selectorDecoration(),
-        child: Row(
-          children: [
-            Text(
-              title,
-              style: const TextStyle(color: Colors.black),
-            ),
-            const Spacer(),
-            Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-              color: Colors.black.withOpacity(.6),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  BoxDecoration selectorDecoration() {
-    return BoxDecoration(
-      border: Border.all(
-        color: const Color.fromRGBO(1, 1, 1, .1),
-        width: 1,
-      ),
-      borderRadius: BorderRadius.circular(4),
     );
   }
 }
