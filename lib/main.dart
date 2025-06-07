@@ -41,7 +41,7 @@ class _MyAppState extends State<MyApp> {
             ],
             routerConfig: routerService.router,
             debugShowCheckedModeBanner: false,
-            title: 'Gören Duyan',
+            title: 'Kan Kardeşi',
           );
         },
       ),

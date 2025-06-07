@@ -7,7 +7,7 @@ import 'package:kan_kardesi/style/theme/custom_theme.dart';
 import 'package:toastification/toastification.dart';
 
 class Helpers {
-  static showAlertSnackBar(BuildContext context, String text) {
+  static void showAlertSnackBar(BuildContext context, String text) {
     showSnackBar(
       context: context,
       text: text,
@@ -15,7 +15,7 @@ class Helpers {
     );
   }
 
-  static showSuccessSnackBar(BuildContext context, String text) {
+  static void showSuccessSnackBar(BuildContext context, String text) {
     showSnackBar(
       context: context,
       text: text,
@@ -23,7 +23,7 @@ class Helpers {
     );
   }
 
-  static showSnackBar({
+  static void showSnackBar({
     required BuildContext context,
     required String text,
     Color? color,
@@ -84,11 +84,11 @@ class Helpers {
     }
   }
 
-  static dateFormatter(String date,
+  static String? dateFormatter(String date,
       {bool isShowHour = true,
       bool hiddenIsToday = false,
       bool showOnlyHourAndMinutes = false}) {
-    if (date == "null") return;
+    if (date == "null") return null;
 
     var dt = DateTime.parse(date);
     if (showOnlyHourAndMinutes) {
@@ -114,7 +114,7 @@ class Helpers {
   //   return customIcon;
   // }
 
-  static String? isEmpty(val, message) {
+  static String? isEmpty(String? val, String? message) {
     if (val == null || val.isEmpty) {
       return message;
     } else {
