@@ -8,10 +8,12 @@ import 'package:provider/provider.dart';
 class BloodRequestsListWidget extends StatelessWidget {
   final List<BloodRequestModel> requests;
   final CityModel city;
+  final bool showTitle;
   const BloodRequestsListWidget({
     super.key,
     required this.requests,
     required this.city,
+    this.showTitle = true,
   });
 
   @override
@@ -21,13 +23,15 @@ class BloodRequestsListWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "İhtiyaç Duyuruları: ${city.name!}",
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                fontSize: 20,
-              ),
-        ),
-        const SizedBox(height: 14),
+        if (showTitle) ...[
+          Text(
+            "İhtiyaç Duyuruları: ${city.name!}",
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  fontSize: 20,
+                ),
+          ),
+          const SizedBox(height: 14),
+        ],
         if (requests.isEmpty)
           Text("Harika haber, şehrinizde kan ihtiyacı bulunmuyor. 🫶")
         else

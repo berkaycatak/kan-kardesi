@@ -12,6 +12,7 @@ class RouteConstants {
   String blog_detail = '/blog/detail';
 
   String search = '/search';
+  String search_list = '/search/list';
   String profile = '/profile';
   String profile_settings = '/profile/settings';
   String password_settings = '/profile/settings/password';

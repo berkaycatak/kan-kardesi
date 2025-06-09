@@ -1,13 +1,21 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:kan_kardesi/models/blood/blood_type_model.dart';
+import 'package:kan_kardesi/models/location/city_model.dart';
 import 'package:kan_kardesi/screens/search/search_mixin.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
 import 'package:kan_kardesi/utils/components/app/custom_appbar_widget.dart';
+import 'package:kan_kardesi/utils/components/selector/blood/blood_selector_widget.dart';
+import 'package:kan_kardesi/utils/components/selector/city/city_selector_widget.dart';
 import 'package:kan_kardesi/utils/components/selector/input_selector_widget.dart';
+import 'package:kan_kardesi/utils/enums/reponse_status_enums.dart';
 import 'package:kan_kardesi/utils/widgets/search/search_widget.dart';
+import 'package:kan_kardesi/view_models/donation/donation_view_model.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_down_button/pull_down_button.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -19,7 +27,16 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> with SearchMixin {
   @override
+  void initState() {
+    init(context);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    DonationViewModel donationViewModel =
+        Provider.of<DonationViewModel>(context);
+
     return PlatformScaffold(
       iosContentPadding: true,
       backgroundColor: const Color.fromRGBO(238, 238, 243, 1),
@@ -31,24 +48,61 @@ class _SearchScreenState extends State<SearchScreen> with SearchMixin {
           children: [
             SearchCardWidget(
               title: "Bağış İhtiyacı Ara",
+              subtitle: "Kan verebileceğiniz ilanları görüntüleyebilirsiniz.",
               color: CustomTheme.primaryColor,
               foregroundColor: Colors.white,
               icon: context.platformIcons.search,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 16),
-                  if (Platform.isIOS)
-                    iosCitySelector()
-                  else
-                    androidCitySelector(),
+                  Card(
+                    child: CitySelectorWidget(
+                      selectedCity: selectedCity,
+                      textStyle: TextStyle(
+                        fontSize: Platform.isIOS
+                            ? Theme.of(context).textTheme.titleMedium?.fontSize
+                            : 14,
+                        fontWeight: Platform.isAndroid ? FontWeight.w500 : null,
+                        color: Platform.isIOS ? Colors.black87 : Colors.black45,
+                      ),
+                      onSelected: (CityModel city) {
+                        selectedCity = city;
+                        FocusScope.of(context).requestFocus(FocusNode());
+                      },
+                    ),
+                  ),
                   const SizedBox(height: 10),
-                  // BloodSelectorWidget(),
-                  const SizedBox(height: 16),
+                  Card(
+                    child: BloodSelectorWidget(
+                      selectedBloodType: selectedBloodType,
+                      textStyle: TextStyle(
+                        fontSize: Platform.isIOS
+                            ? Theme.of(context).textTheme.titleMedium?.fontSize
+                            : 14,
+                        fontWeight: Platform.isAndroid ? FontWeight.w500 : null,
+                        color: Platform.isIOS ? Colors.black87 : Colors.black45,
+                      ),
+                      onSelected: (BloodTypeModel type) {
+                        selectedBloodType = type;
+                        FocusScope.of(context).requestFocus(FocusNode());
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 14),
                   SizedBox(
                     width: double.infinity,
                     child: PlatformElevatedButton(
-                      onPressed: () {},
-                      child: const Text("Bağışçı Ara"),
+                      onPressed: donationViewModel.currentSearchStatus ==
+                              ResponseStatus.loading
+                          ? null
+                          : () {
+                              search(context);
+                            },
+                      child: donationViewModel.currentSearchStatus ==
+                              ResponseStatus.loading
+                          ? CircularProgressIndicator.adaptive()
+                          : const Text("İlan Ara"),
                     ),
                   )
                 ],
@@ -59,7 +113,7 @@ class _SearchScreenState extends State<SearchScreen> with SearchMixin {
               title: "Bağış İhtiyacı Duyur",
               color: CustomTheme.secondaryColor,
               foregroundColor: Colors.white,
-              icon: context.platformIcons.search,
+              icon: Icons.campaign,
               child: Column(
                 children: [
                   const SizedBox(height: 16),
