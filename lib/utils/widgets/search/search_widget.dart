@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
@@ -5,6 +7,7 @@ import 'package:kan_kardesi/style/theme/custom_theme.dart';
 class SearchCardWidget extends StatelessWidget {
   final Widget child;
   final String title;
+  final String? subtitle;
   final Color foregroundColor;
   final IconData icon;
   final Color color;
@@ -15,6 +18,7 @@ class SearchCardWidget extends StatelessWidget {
     required this.icon,
     required this.color,
     required this.foregroundColor,
+    this.subtitle,
   });
 
   @override
@@ -33,7 +37,7 @@ class SearchCardWidget extends StatelessWidget {
                   backgroundColor: color,
                   foregroundColor: foregroundColor,
                   child: Icon(
-                    context.platformIcons.search,
+                    icon,
                     size: 16,
                   ),
                 ),
@@ -47,7 +51,17 @@ class SearchCardWidget extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            if (subtitle != null) ...[
+              const SizedBox(height: 8),
+              Text(
+                subtitle!,
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 14,
+                ),
+              ),
+            ],
             child,
           ],
         ),

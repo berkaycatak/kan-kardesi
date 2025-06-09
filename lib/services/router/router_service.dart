@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kan_kardesi/models/blog/blog_model.dart';
+import 'package:kan_kardesi/models/blood/blood_request_model.dart';
+import 'package:kan_kardesi/models/location/city_model.dart';
 import 'package:kan_kardesi/screens/auth/login/login_screen.dart';
 import 'package:kan_kardesi/screens/auth/register/register_screen.dart';
 import 'package:kan_kardesi/screens/auth/splash/splash_screen.dart';
 import 'package:kan_kardesi/screens/auth/welcome/welcome_screen.dart';
 import 'package:kan_kardesi/screens/blog/detail/blog_detail_screen.dart';
+import 'package:kan_kardesi/screens/donation/list/donation_list_screen.dart';
 import 'package:kan_kardesi/screens/home/home_screen.dart';
 import 'package:kan_kardesi/screens/main/main_screen.dart';
 import 'package:kan_kardesi/screens/profile/profile_screen.dart';
@@ -177,12 +180,28 @@ class RouterService {
               StatefulShellBranch(
                 routes: <RouteBase>[
                   GoRoute(
-                    name: routes.search,
-                    path: routes.search,
-                    builder: (BuildContext context, GoRouterState state) {
-                      return const SearchScreen();
-                    },
-                  ),
+                      name: routes.search,
+                      path: routes.search,
+                      builder: (BuildContext context, GoRouterState state) {
+                        return const SearchScreen();
+                      },
+                      routes: [
+                        GoRoute(
+                          name: routes.search_list,
+                          path: routes.search_list,
+                          builder: (BuildContext context, GoRouterState state) {
+                            dynamic extra = state.extra;
+                            List<BloodRequestModel> requests =
+                                extra["requests"];
+                            CityModel city = extra["city"];
+
+                            return DonationListScreen(
+                              requests: requests,
+                              city: city,
+                            );
+                          },
+                        ),
+                      ]),
                 ],
               ),
               StatefulShellBranch(
