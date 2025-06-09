@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:kan_kardesi/models/blog/blog_model.dart';
 import 'package:kan_kardesi/services/router/route_constants.dart';
 import 'package:kan_kardesi/services/router/router_service.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
+import 'package:kan_kardesi/utils/constants/constants.dart';
 import 'package:kan_kardesi/utils/constants/image/image_constants.dart';
 
 class BlogWidget extends StatelessWidget {
+  final BlogModel blog;
   const BlogWidget({
     super.key,
+    required this.blog,
   });
 
   @override
@@ -17,6 +21,7 @@ class BlogWidget extends StatelessWidget {
         RouterService.goNamed(
           context: context,
           route: RouteConstants().blog_detail,
+          extra: blog,
         );
       },
       padding: EdgeInsets.zero,
@@ -26,8 +31,8 @@ class BlogWidget extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.asset(
-                ImageConstants.welcome,
+              child: Image.network(
+                Constants.IMAGE_URL + blog.image!,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
@@ -53,14 +58,14 @@ class BlogWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    "Kan Bağışı Yapmanın 5 Faydası!",
+                    blog.title!,
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           color: Colors.white,
                           fontSize: 20,
                         ),
                   ),
                   Text(
-                    "Düzenli kan bağışı yaparak hem kendi sağlığınızı koruyabilir hem de başkalarına yardım edebilirsiniz.",
+                    blog.shortDescription!,
                     softWrap: true,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
