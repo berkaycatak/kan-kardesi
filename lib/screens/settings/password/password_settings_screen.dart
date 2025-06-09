@@ -6,6 +6,7 @@ import 'package:kan_kardesi/utils/components/app/custom_appbar_widget.dart';
 import 'package:kan_kardesi/utils/enums/reponse_status_enums.dart';
 import 'package:kan_kardesi/utils/helpers/helpers.dart';
 import 'package:kan_kardesi/view_models/auth/auth_view_model.dart';
+import 'package:kan_kardesi/view_models/user/user_view_model.dart';
 import 'package:provider/provider.dart';
 
 class PasswordSettingsScreen extends StatefulWidget {
@@ -36,7 +37,7 @@ class _PasswordSettingsScreenState extends State<PasswordSettingsScreen>
   }
 
   Form formWidget(BuildContext context) {
-    AuthViewModel authViewModel = Provider.of<AuthViewModel>(context);
+    UserViewModel userViewModel = Provider.of<UserViewModel>(context);
     return Form(
       key: formKey,
       child: Column(
@@ -109,10 +110,10 @@ class _PasswordSettingsScreenState extends State<PasswordSettingsScreen>
           SizedBox(
             width: double.infinity,
             child: PlatformElevatedButton(
-              onPressed: authViewModel.currentStatus == ResponseStatus.loading
+              onPressed: userViewModel.currentStatus == ResponseStatus.loading
                   ? null
                   : () => updatePassword(context),
-              child: authViewModel.currentStatus == ResponseStatus.loading
+              child: userViewModel.currentStatus == ResponseStatus.loading
                   ? CircularProgressIndicator.adaptive()
                   : const Text("Profili Güncelle"),
             ),

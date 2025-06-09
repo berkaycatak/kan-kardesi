@@ -15,6 +15,7 @@ import 'package:kan_kardesi/utils/enums/reponse_status_enums.dart';
 
 import 'package:kan_kardesi/utils/helpers/helpers.dart';
 import 'package:kan_kardesi/view_models/auth/auth_view_model.dart';
+import 'package:kan_kardesi/view_models/user/user_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ProfileSettingsScreen extends StatefulWidget {
@@ -52,7 +53,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen>
   }
 
   Form formWidget(BuildContext context) {
-    AuthViewModel authViewModel = Provider.of<AuthViewModel>(context);
+    UserViewModel userViewModel = Provider.of<UserViewModel>(context);
     return Form(
       key: formKey,
       child: Column(
@@ -188,10 +189,10 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen>
           SizedBox(
             width: double.infinity,
             child: PlatformElevatedButton(
-              onPressed: authViewModel.currentStatus == ResponseStatus.loading
+              onPressed: userViewModel.currentStatus == ResponseStatus.loading
                   ? null
                   : () => updateProfile(context),
-              child: authViewModel.currentStatus == ResponseStatus.loading
+              child: userViewModel.currentStatus == ResponseStatus.loading
                   ? CircularProgressIndicator.adaptive()
                   : const Text("Profili Güncelle"),
             ),

@@ -188,4 +188,33 @@ class UserRepository {
 
     return GlobalVariables.userModel;
   }
+
+  Future<UserModel?> getProfile({
+    required BuildContext context,
+    required Map payload,
+  }) async {
+    dynamic response = await _requestServices.sendRequest(
+      path: "user/profile",
+      isToken: true,
+      payload: payload,
+      context: context,
+    );
+
+    if (response == null) return null;
+
+    if (response["status"] == false) {
+      return null;
+    }
+
+    if (response["user"] != null) {
+      GlobalVariables.userModel = UserModel.fromJson(response["user"]);
+      AuthViewModel authViewModel = Provider.of<AuthViewModel>(
+        context,
+        listen: false,
+      );
+      authViewModel.setUserModel = GlobalVariables.userModel;
+    }
+
+    return GlobalVariables.userModel;
+  }
 }

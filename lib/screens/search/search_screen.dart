@@ -12,6 +12,7 @@ import 'package:kan_kardesi/utils/components/selector/blood/blood_selector_widge
 import 'package:kan_kardesi/utils/components/selector/city/city_selector_widget.dart';
 import 'package:kan_kardesi/utils/components/selector/input_selector_widget.dart';
 import 'package:kan_kardesi/utils/enums/reponse_status_enums.dart';
+import 'package:kan_kardesi/utils/helpers/helpers.dart';
 import 'package:kan_kardesi/utils/widgets/search/search_widget.dart';
 import 'package:kan_kardesi/view_models/donation/donation_view_model.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -114,47 +115,122 @@ class _SearchScreenState extends State<SearchScreen> with SearchMixin {
               color: CustomTheme.secondaryColor,
               foregroundColor: Colors.white,
               icon: Icons.campaign,
-              child: Column(
-                children: [
-                  const SizedBox(height: 16),
-                  if (Platform.isIOS)
-                    iosCitySelector()
-                  else
-                    androidCitySelector(),
-                  const SizedBox(height: 10),
-                  // BloodSelectorWidget(),
-                  const SizedBox(height: 10),
-                  Container(
-                    decoration: selectorDecoration(),
-                    child: PlatformTextFormField(
-                      hintText: "Açıklama Girin (Opsiyonel)",
-                      minLines: 1,
-                      maxLines: 3,
-                      cupertino: (context, platform) =>
-                          CupertinoTextFormFieldData(
-                        placeholderStyle: const TextStyle(
-                          fontFamily: "",
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    const SizedBox(height: 16),
+                    Card(
+                      child: CitySelectorWidget(
+                        selectedCity: selectedCityShare,
+                        textStyle: TextStyle(
+                          fontSize: Platform.isIOS
+                              ? Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.fontSize
+                              : 14,
+                          fontWeight:
+                              Platform.isAndroid ? FontWeight.w500 : null,
+                          color: Platform.isIOS
+                              ? CupertinoColors.tertiaryLabel
+                              : Colors.black45,
+                        ),
+                        onSelected: (CityModel city) {
+                          selectedCityShare = city;
+                          FocusScope.of(context).requestFocus(FocusNode());
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Card(
+                      child: BloodSelectorWidget(
+                        selectedBloodType: selectedBloodTypeShare,
+                        textStyle: TextStyle(
+                          fontSize: Platform.isIOS
+                              ? Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.fontSize
+                              : 14,
+                          fontWeight:
+                              Platform.isAndroid ? FontWeight.w500 : null,
+                          color:
+                              Platform.isIOS ? Colors.black87 : Colors.black45,
+                        ),
+                        onSelected: (BloodTypeModel type) {
+                          selectedBloodTypeShare = type;
+                          FocusScope.of(context).requestFocus(FocusNode());
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      decoration: selectorDecoration(),
+                      child: PlatformTextFormField(
+                        controller: unitController,
+                        hintText: "Ünite",
+                        validator: (value) => Helpers.isEmpty(
+                          value,
+                          "Lütfen kaç üniteye ihtiyaç olduğunu girin.",
+                        ),
+                        cupertino: (context, platform) =>
+                            CupertinoTextFormFieldData(
+                          placeholderStyle: const TextStyle(
+                            fontFamily: "",
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                        style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.normal,
                         ),
+                        keyboardType: TextInputType.number,
                       ),
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal,
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      decoration: selectorDecoration(),
+                      child: PlatformTextFormField(
+                        controller: descriptionController,
+                        hintText: "Açıklama Girin (Opsiyonel)",
+                        minLines: 1,
+                        maxLines: 3,
+                        cupertino: (context, platform) =>
+                            CupertinoTextFormFieldData(
+                          placeholderStyle: const TextStyle(
+                            fontFamily: "",
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                        ),
+                        keyboardType: TextInputType.text,
                       ),
-                      keyboardType: TextInputType.text,
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  SizedBox(
-                    width: double.infinity,
-                    child: PlatformElevatedButton(
-                      color: CustomTheme.secondaryColor,
-                      onPressed: () {},
-                      child: const Text("İhtiyaç Duyur"),
+                    const SizedBox(height: 16),
+                    SizedBox(
+                      width: double.infinity,
+                      child: PlatformElevatedButton(
+                        color: CustomTheme.secondaryColor,
+                        onPressed: donationViewModel.currentShareStatus ==
+                                ResponseStatus.loading
+                            ? null
+                            : () {
+                                share(context);
+                              },
+                        child: donationViewModel.currentShareStatus ==
+                                ResponseStatus.loading
+                            ? CircularProgressIndicator.adaptive()
+                            : const Text("İhtiyaç Duyur"),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 80),

@@ -37,4 +37,31 @@ class BloodRepository {
       return [];
     }
   }
+
+  Future<BloodRequestModel?> share({
+    required BuildContext context,
+    required Map payload,
+  }) async {
+    try {
+      dynamic response = await _requestServices.sendRequest(
+        context: context,
+        path: "blood/request",
+        isToken: true,
+        payload: payload,
+      );
+
+      if (response == null) return null;
+
+      BloodRequestModel request = BloodRequestModel.fromJson(
+        response["blood_request"],
+      );
+
+      return request;
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      return null;
+    }
+  }
 }

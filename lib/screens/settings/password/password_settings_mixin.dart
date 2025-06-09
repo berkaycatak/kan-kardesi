@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kan_kardesi/utils/helpers/helpers.dart';
 import 'package:kan_kardesi/view_models/auth/auth_view_model.dart';
+import 'package:kan_kardesi/view_models/user/user_view_model.dart';
 import 'package:provider/provider.dart';
 
 mixin PasswordSettingsMixin {
@@ -47,12 +48,12 @@ mixin PasswordSettingsMixin {
       return;
     }
 
-    AuthViewModel authViewModel = Provider.of<AuthViewModel>(
+    UserViewModel userViewModel = Provider.of<UserViewModel>(
       context,
       listen: false,
     );
 
-    bool status = await authViewModel.updatePassword(
+    bool status = await userViewModel.updatePassword(
       context,
       password: oldPasswordController.text,
       newPassword: passwordController.text,

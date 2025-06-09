@@ -6,7 +6,9 @@ import 'package:kan_kardesi/services/router/router_service.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
 import 'package:kan_kardesi/utils/components/app/custom_appbar_widget.dart';
 import 'package:kan_kardesi/utils/constants/global_variables/global_variables.dart';
+import 'package:kan_kardesi/utils/widgets/requests/blood_requests_list_widget.dart';
 import 'package:kan_kardesi/view_models/auth/auth_view_model.dart';
+import 'package:kan_kardesi/view_models/user/user_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -18,7 +20,18 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> with ProfileMixin {
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      init(context);
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    UserViewModel userViewModel = Provider.of<UserViewModel>(context);
+    AuthViewModel authViewModel = Provider.of<AuthViewModel>(context);
+
     return PlatformScaffold(
       iosContentBottomPadding: true,
       iosContentPadding: true,
@@ -39,48 +52,47 @@ class _ProfileScreenState extends State<ProfileScreen> with ProfileMixin {
           )
         ],
       ),
-      body: ListView(
-        padding: CustomTheme.screenPadding,
-        children: [
-          profileDetailWidget(context),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "İhtiyaç Duyurularım",
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontSize: 20,
-                    ),
-              ),
-              PlatformIconButton(
-                padding: EdgeInsets.zero,
-                onPressed: () {
-                  RouterService.goNamed(
-                    context: context,
-                    route: RouteConstants().search,
-                  );
-                },
-                icon: Icon(
-                  context.platformIcons.addCircledSolid,
-                  color: Colors.red,
+      body: RefreshIndicator.adaptive(
+        onRefresh: () {
+          return getProfile(context);
+        },
+        child: ListView(
+          padding: CustomTheme.screenPadding,
+          children: [
+            profileDetailWidget(context),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "İhtiyaç Duyurularım",
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        fontSize: 20,
+                      ),
                 ),
-              )
-            ],
-          ),
-          const SizedBox(height: 10),
-          Card(
-            child: Padding(
-              padding: CustomTheme.screenPadding,
-              child: Text(
-                "İhtiyaç duyurunuz bulunmuyor. ❤️ Sağlıklı günler dileriz.",
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: 15,
-                    ),
-              ),
+                PlatformIconButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: () {
+                    RouterService.goNamed(
+                      context: context,
+                      route: RouteConstants().search,
+                    );
+                  },
+                  icon: Icon(
+                    context.platformIcons.addCircledSolid,
+                    color: Colors.red,
+                  ),
+                )
+              ],
             ),
-          )
-        ],
+            const SizedBox(height: 10),
+            BloodRequestsListWidget(
+              requests: authViewModel.userModel!.requests ?? [],
+              emptyText:
+                  "İhtiyaç duyurunuz bulunmuyor. ❤️ Sağlıklı günler dileriz.",
+            ),
+          ],
+        ),
       ),
     );
   }
