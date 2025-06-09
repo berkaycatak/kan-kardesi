@@ -8,6 +8,8 @@ import 'package:kan_kardesi/models/user/user_model.dart';
 import 'package:kan_kardesi/services/request/request_service.dart';
 import 'package:kan_kardesi/utils/constants/global_variables/global_variables.dart';
 import 'package:kan_kardesi/utils/enums/shared_preferences_enums.dart';
+import 'package:kan_kardesi/view_models/auth/auth_view_model.dart';
+import 'package:provider/provider.dart';
 
 class UserRepository {
   final RequestServices _requestServices = RequestServices();
@@ -127,5 +129,63 @@ class UserRepository {
     GlobalVariables.userModel = null;
 
     return true;
+  }
+
+  Future<UserModel?> updateProfile({
+    required BuildContext context,
+    required Map payload,
+  }) async {
+    dynamic response = await _requestServices.sendRequest(
+      path: "settings/update",
+      isToken: true,
+      payload: payload,
+      context: context,
+    );
+
+    if (response == null) return null;
+
+    if (response["status"] == false) {
+      return null;
+    }
+
+    if (response["user"] != null) {
+      GlobalVariables.userModel = UserModel.fromJson(response["user"]);
+      AuthViewModel authViewModel = Provider.of<AuthViewModel>(
+        context,
+        listen: false,
+      );
+      authViewModel.setUserModel = GlobalVariables.userModel;
+    }
+
+    return GlobalVariables.userModel;
+  }
+
+  Future<UserModel?> updatePassword({
+    required BuildContext context,
+    required Map payload,
+  }) async {
+    dynamic response = await _requestServices.sendRequest(
+      path: "settings/change-password",
+      isToken: true,
+      payload: payload,
+      context: context,
+    );
+
+    if (response == null) return null;
+
+    if (response["status"] == false) {
+      return null;
+    }
+
+    if (response["user"] != null) {
+      GlobalVariables.userModel = UserModel.fromJson(response["user"]);
+      AuthViewModel authViewModel = Provider.of<AuthViewModel>(
+        context,
+        listen: false,
+      );
+      authViewModel.setUserModel = GlobalVariables.userModel;
+    }
+
+    return GlobalVariables.userModel;
   }
 }

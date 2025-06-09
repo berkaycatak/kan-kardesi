@@ -1,10 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:kan_kardesi/models/blood/blood_type_model.dart';
+import 'package:kan_kardesi/models/location/city_model.dart';
+import 'package:kan_kardesi/utils/constants/global_variables/global_variables.dart';
 import 'package:kan_kardesi/utils/helpers/helpers.dart';
+import 'package:kan_kardesi/view_models/auth/auth_view_model.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:provider/provider.dart';
 
 mixin ProfileSettingsMixin {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  BloodTypeModel? selectedBloodType;
+  CityModel? selectedCity;
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -38,16 +45,42 @@ mixin ProfileSettingsMixin {
     return null;
   }
 
-  void updateProfile(BuildContext context) {
+  void init() {
+    nameController.text = GlobalVariables.userModel!.name!;
+    phoneNumberController.text = "+90 ${GlobalVariables.userModel!.phone!}";
+    emailController.text = GlobalVariables.userModel!.email!;
+    selectedBloodType = GlobalVariables.userModel!.bloodType;
+    selectedCity = GlobalVariables.userModel!.city;
+  }
+
+  Future<void> updateProfile(BuildContext context) async {
     bool isValidated = formKey.currentState!.validate();
     if (!isValidated) {
       return;
     }
 
     formKey.currentState!.save();
-    if (kDebugMode) {
-      print(emailController.text);
-      print(passwordController.text);
+
+    if (selectedCity == null) {
+      Helpers.showAlertSnackBar(
+        context,
+        "Lütfen şehir seçimi yapın.",
+      );
+      return;
     }
+
+    AuthViewModel authViewModel = Provider.of<AuthViewModel>(
+      context,
+      listen: false,
+    );
+
+    await authViewModel.updateProfile(
+      context,
+      bloodType: selectedBloodType!,
+      city: selectedCity!,
+      name: nameController.text,
+      phone: phoneNumberController.text,
+      email: emailController.text,
+    );
   }
 }

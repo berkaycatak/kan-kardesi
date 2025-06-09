@@ -1,12 +1,21 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:kan_kardesi/models/blood/blood_type_model.dart';
+import 'package:kan_kardesi/models/location/city_model.dart';
 import 'package:kan_kardesi/screens/settings/profile/profile_settings_mixin.dart';
 import 'package:kan_kardesi/services/router/router_service.dart';
-
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
 import 'package:kan_kardesi/utils/components/app/custom_appbar_widget.dart';
+import 'package:kan_kardesi/utils/components/selector/blood/blood_selector_widget.dart';
+import 'package:kan_kardesi/utils/components/selector/city/city_selector_widget.dart';
+import 'package:kan_kardesi/utils/enums/reponse_status_enums.dart';
 
 import 'package:kan_kardesi/utils/helpers/helpers.dart';
+import 'package:kan_kardesi/view_models/auth/auth_view_model.dart';
+import 'package:provider/provider.dart';
 
 class ProfileSettingsScreen extends StatefulWidget {
   const ProfileSettingsScreen({super.key});
@@ -17,6 +26,12 @@ class ProfileSettingsScreen extends StatefulWidget {
 
 class _ProfileSettingsScreenState extends State<ProfileSettingsScreen>
     with ProfileSettingsMixin {
+  @override
+  void initState() {
+    init();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(
@@ -37,6 +52,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen>
   }
 
   Form formWidget(BuildContext context) {
+    AuthViewModel authViewModel = Provider.of<AuthViewModel>(context);
     return Form(
       key: formKey,
       child: Column(
@@ -57,12 +73,69 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen>
               keyboardType: TextInputType.name,
               hintText: "Adınızı ve soyadınızı girin.",
               autofillHints: const [AutofillHints.name],
+              autofocus: false,
               textInputAction: TextInputAction.next,
               onFieldSubmitted: (value) => phoneNumberFocusNode.requestFocus(),
               validator: (val) => Helpers.isEmpty(
                 val,
                 "Lütfen ad soyad girin",
               ),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            "Kan Grubu",
+            style: Theme.of(context)
+                .textTheme
+                .bodySmall!
+                .copyWith(color: Colors.black),
+          ),
+          const SizedBox(height: 4),
+          Card(
+            child: BloodSelectorWidget(
+              selectedBloodType: selectedBloodType,
+              useDecoration: false,
+              textStyle: TextStyle(
+                fontSize: Platform.isIOS
+                    ? Theme.of(context).textTheme.titleMedium?.fontSize
+                    : 14,
+                fontWeight: Platform.isAndroid ? FontWeight.w500 : null,
+                color: Platform.isIOS
+                    ? CupertinoColors.tertiaryLabel
+                    : Colors.black45,
+              ),
+              onSelected: (BloodTypeModel type) {
+                selectedBloodType = type;
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            "Şehir",
+            style: Theme.of(context)
+                .textTheme
+                .bodySmall!
+                .copyWith(color: Colors.black),
+          ),
+          const SizedBox(height: 4),
+          Card(
+            child: CitySelectorWidget(
+              selectedCity: selectedCity,
+              useDecoration: false,
+              textStyle: TextStyle(
+                fontSize: Platform.isIOS
+                    ? Theme.of(context).textTheme.titleMedium?.fontSize
+                    : 14,
+                fontWeight: Platform.isAndroid ? FontWeight.w500 : null,
+                color: Platform.isIOS
+                    ? CupertinoColors.tertiaryLabel
+                    : Colors.black45,
+              ),
+              onSelected: (CityModel city) {
+                selectedCity = city;
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
             ),
           ),
           const SizedBox(height: 10),
@@ -115,8 +188,12 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen>
           SizedBox(
             width: double.infinity,
             child: PlatformElevatedButton(
-              onPressed: () => updateProfile(context),
-              child: const Text("Profili Güncelle"),
+              onPressed: authViewModel.currentStatus == ResponseStatus.loading
+                  ? null
+                  : () => updateProfile(context),
+              child: authViewModel.currentStatus == ResponseStatus.loading
+                  ? CircularProgressIndicator.adaptive()
+                  : const Text("Profili Güncelle"),
             ),
           ),
           const SizedBox(height: 16),

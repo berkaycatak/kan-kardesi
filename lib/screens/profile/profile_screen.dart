@@ -5,6 +5,9 @@ import 'package:kan_kardesi/services/router/route_constants.dart';
 import 'package:kan_kardesi/services/router/router_service.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
 import 'package:kan_kardesi/utils/components/app/custom_appbar_widget.dart';
+import 'package:kan_kardesi/utils/constants/global_variables/global_variables.dart';
+import 'package:kan_kardesi/view_models/auth/auth_view_model.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -83,6 +86,8 @@ class _ProfileScreenState extends State<ProfileScreen> with ProfileMixin {
   }
 
   SizedBox profileDetailWidget(BuildContext context) {
+    AuthViewModel authViewModel = Provider.of<AuthViewModel>(context);
+
     return SizedBox(
       width: double.infinity,
       child: Card(
@@ -91,33 +96,40 @@ class _ProfileScreenState extends State<ProfileScreen> with ProfileMixin {
           child: Row(
             children: [
               Expanded(
+                flex: 2,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "Kerem Alan",
+                      authViewModel.userModel!.name!,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      "+90 507 720 98 17",
+                      "+90 ${authViewModel.userModel!.phone!}",
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ],
                 ),
               ),
-              PlatformElevatedButton(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: const Text(
-                  "Düzenle",
+              Flexible(
+                flex: 1,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: PlatformElevatedButton(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: const Text(
+                      "Düzenle",
+                    ),
+                    onPressed: () {
+                      RouterService.goNamed(
+                        context: context,
+                        route: RouteConstants().profile_settings,
+                      );
+                    },
+                  ),
                 ),
-                onPressed: () {
-                  RouterService.goNamed(
-                    context: context,
-                    route: RouteConstants().profile_settings,
-                  );
-                },
               ),
             ],
           ),
