@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kan_kardesi/models/blog/blog_model.dart';
 import 'package:kan_kardesi/screens/auth/login/login_screen.dart';
 import 'package:kan_kardesi/screens/auth/register/register_screen.dart';
 import 'package:kan_kardesi/screens/auth/splash/splash_screen.dart';
@@ -165,7 +166,8 @@ class RouterService {
                         name: routes.blog_detail,
                         path: routes.blog_detail,
                         builder: (BuildContext context, GoRouterState state) {
-                          return const BlogDetailScreen();
+                          BlogModel blog = state.extra as BlogModel;
+                          return BlogDetailScreen(blog: blog);
                         },
                       ),
                     ],

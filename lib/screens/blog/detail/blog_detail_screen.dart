@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:html2md/html2md.dart' as html2md;
+import 'package:kan_kardesi/models/blog/blog_model.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
 import 'package:kan_kardesi/utils/components/app/custom_appbar_widget.dart';
+import 'package:kan_kardesi/utils/constants/constants.dart';
+import 'package:kan_kardesi/utils/helpers/helpers.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BlogDetailScreen extends StatefulWidget {
-  const BlogDetailScreen({super.key});
+  final BlogModel blog;
+  const BlogDetailScreen({super.key, required this.blog});
 
   @override
   State<BlogDetailScreen> createState() => _BlogDetailScreenState();
@@ -15,7 +22,10 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
   Widget build(BuildContext context) {
     return PlatformScaffold(
       backgroundColor: const Color.fromRGBO(238, 238, 243, 1),
-      appBar: customAppBar(context, title: "Kan Bağışı Yapmanın 5 Faydası!"),
+      appBar: customAppBar(
+        context,
+        title: widget.blog.title! * 1,
+      ),
       body: ListView(
         children: [
           SizedBox(
@@ -27,7 +37,7 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
                   // bottomRight: Radius.circular(10),
                   ),
               child: Image.network(
-                "https://whitworthchemists.co.uk/img/containers/assets/World-Blood-Donor-Day-Blog-June-2024.png/aafee9cb143c5ed8dd0a352e2f89bada.png",
+                Constants.IMAGE_URL + widget.blog.image!,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
@@ -52,11 +62,11 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Berkay Çatak",
+                        widget.blog.user!.name!,
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       Text(
-                        "2 Gün Önce",
+                        Helpers.dateFormatter(widget.blog.createdAt!)!,
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ],
@@ -64,20 +74,23 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
                   const SizedBox(height: 6),
                   const Divider(),
                   const SizedBox(height: 6),
-                  SelectableText(
-                    """1- Sağlığınızı İyileştirir
-Kan bağışı, vücudun yeni kan hücreleri üretmesini tetikleyerek dolaşım sistemini yeniler ve sağlığınızı destekler.
-
-2- Hayat Kurtarır
-Verilen her ünite kan, kazazedelerden ameliyat hastalarına kadar birçok insanın hayatını kurtarabilir.
-
-3- Kalp ve Damar Sağlığını Destekler
-Düzenli kan vermek, kandaki demir seviyesini dengeleyerek kalp krizi ve damar tıkanıklığı riskini azaltabilir.""" *
-                        3,
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                        ),
+                  MarkdownBody(
+                    data: html2md.convert(
+                      widget.blog.description!,
+                    ),
+                    styleSheet: MarkdownStyleSheet(
+                      h2: const TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                    onTapLink: (text, url, title) async {
+                      if (url != null) {
+                        Uri myUri = Uri.parse(url);
+                        if (!await launchUrl(myUri)) {
+                          throw 'Could not launch $url';
+                        }
+                      }
+                    },
                   ),
                 ],
               ),

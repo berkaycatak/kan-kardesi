@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:kan_kardesi/models/blood/blood_request_model.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
 import 'package:kan_kardesi/utils/widgets/donation/donation_card_widget.dart';
 
 class DonationDetailScreen extends StatefulWidget {
-  const DonationDetailScreen({super.key});
+  final BloodRequestModel bloodRequest;
+  const DonationDetailScreen({super.key, required this.bloodRequest});
 
   @override
   State<DonationDetailScreen> createState() => _DonationDetailScreenState();
@@ -18,10 +20,13 @@ class _DonationDetailScreenState extends State<DonationDetailScreen> {
       iosContentPadding: true,
       body: Padding(
         padding: CustomTheme.screenPadding,
-        child: const Column(
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            DonationCardWidget(isDetail: true),
+            DonationCardWidget(
+              isDetail: true,
+              bloodRequest: widget.bloodRequest,
+            ),
             SizedBox(height: 40),
           ],
         ),
