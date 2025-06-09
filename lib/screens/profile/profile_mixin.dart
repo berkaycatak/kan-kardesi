@@ -5,9 +5,14 @@ import 'package:kan_kardesi/services/router/router_service.dart';
 import 'package:kan_kardesi/utils/components/app/adaptive/adaptive_action.dart';
 import 'package:kan_kardesi/utils/helpers/helpers.dart';
 import 'package:kan_kardesi/view_models/auth/auth_view_model.dart';
+import 'package:kan_kardesi/view_models/user/user_view_model.dart';
 import 'package:provider/provider.dart';
 
 mixin ProfileMixin {
+  Future<void> init(BuildContext context) async {
+    await getProfile(context);
+  }
+
   void logout(BuildContext context) {
     // show logout dialog
     showDialog<void>(
@@ -62,6 +67,27 @@ mixin ProfileMixin {
       Helpers.showAlertSnackBar(
         context,
         "Çıkış yaparken bir hata oluştu. Lütfen tekrar deneyin.",
+      );
+    }
+  }
+
+  Future<void> getProfile(BuildContext context) async {
+    try {
+      AuthViewModel authViewModel = Provider.of<AuthViewModel>(
+        context,
+        listen: false,
+      );
+
+      UserViewModel userViewModel = Provider.of<UserViewModel>(
+        context,
+        listen: false,
+      );
+
+      await userViewModel.getProfile(context, id: authViewModel.userModel!.id!);
+    } catch (e) {
+      Helpers.showAlertSnackBar(
+        context,
+        "Profil yüklenirken bir hata oluştu. Lütfen tekrar deneyin.",
       );
     }
   }

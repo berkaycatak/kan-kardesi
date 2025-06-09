@@ -4,6 +4,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:kan_kardesi/models/blood/blood_request_model.dart';
 import 'package:kan_kardesi/screens/donation/detail/donation_detail_screen.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
+import 'package:kan_kardesi/utils/helpers/helpers.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class DonationCardWidget extends StatelessWidget {
@@ -46,12 +47,26 @@ class DonationCardWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(
-              "Bağış İhtiyacı",
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: CustomTheme.primaryColor,
-                    fontWeight: FontWeight.w600,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Bağış İhtiyacı",
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: CustomTheme.primaryColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+                Text(
+                  Helpers.dateFormatter(
+                    bloodRequest.createdAt!,
+                  )!,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Colors.grey,
                   ),
+                ),
+              ],
             ),
             const SizedBox(height: 4),
             donationCardInfoWidget(

@@ -12,6 +12,7 @@ import 'package:kan_kardesi/view_models/app/app_view_model.dart';
 import 'package:kan_kardesi/view_models/auth/auth_view_model.dart';
 import 'package:kan_kardesi/view_models/donation/donation_view_model.dart';
 import 'package:kan_kardesi/view_models/home/home_view_model.dart';
+import 'package:kan_kardesi/view_models/user/user_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:toastification/toastification.dart';
 
@@ -30,6 +31,7 @@ Future<void> main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => AppViewModel()),
         ChangeNotifierProvider(create: (context) => AuthViewModel()),
+        ChangeNotifierProvider(create: (context) => UserViewModel()),
         ChangeNotifierProvider(create: (context) => HomeViewModel()),
         ChangeNotifierProvider(create: (context) => DonationViewModel()),
       ],

@@ -5,6 +5,7 @@ import 'package:kan_kardesi/models/location/city_model.dart';
 import 'package:kan_kardesi/utils/constants/global_variables/global_variables.dart';
 import 'package:kan_kardesi/utils/helpers/helpers.dart';
 import 'package:kan_kardesi/view_models/auth/auth_view_model.dart';
+import 'package:kan_kardesi/view_models/user/user_view_model.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 
@@ -69,12 +70,12 @@ mixin ProfileSettingsMixin {
       return;
     }
 
-    AuthViewModel authViewModel = Provider.of<AuthViewModel>(
+    UserViewModel userViewModel = Provider.of<UserViewModel>(
       context,
       listen: false,
     );
 
-    await authViewModel.updateProfile(
+    await userViewModel.updateProfile(
       context,
       bloodType: selectedBloodType!,
       city: selectedCity!,
