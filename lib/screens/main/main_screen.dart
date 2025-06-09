@@ -36,71 +36,67 @@ class _MainScreenState extends State<MainScreen> with MainMixin {
       canPop: false,
       child: PlatformScaffold(
         iosContentPadding: true,
-        body: CupertinoTabScaffold(
-          tabBar: CupertinoTabBar(
-            activeColor:
-                context.isDarkMode() ? Colors.white : CustomTheme.primaryColor,
-            onTap: (int tappedIndex) async {
-              if (widget.navigationShell.currentIndex == tappedIndex) {
-                String routePath = "";
-                switch (tappedIndex) {
-                  case 0:
-                    routePath = RouterService.routes.home;
-                    break;
-                  case 1:
-                    routePath = RouterService.routes.search;
-                    break;
-                  case 2:
-                    routePath = RouterService.routes.profile;
-                    break;
-                }
-
-                RouterService.goNamed(
-                  context: context,
-                  route: routePath,
-                );
-              } else {
-                widget.navigationShell.goBranch(tappedIndex);
-              }
-            },
-            currentIndex: widget.navigationShell.currentIndex,
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: bottomBarIconWidget(
-                  context: context,
-                  icon: Icons.home,
-                  index: 0,
-                ),
-                label: 'Anasayfa',
-              ),
-              BottomNavigationBarItem(
-                backgroundColor: Colors.yellow,
-                icon: bottomBarIconWidget(
-                  context: context,
-                  icon: Icons.search,
-                  index: 1,
-                ),
-                label: 'Ara',
-              ),
-              BottomNavigationBarItem(
-                icon: bottomBarIconWidget(
-                  context: context,
-                  icon: Icons.account_circle,
-                  index: 2,
-                ),
-                label: 'Profil',
-              ),
-            ],
+        body: widget.navigationShell,
+        bottomNavBar: PlatformNavBar(
+          cupertino: (context, platform) => CupertinoTabBarData(
+            activeColor: CustomTheme.primaryColor,
           ),
-          tabBuilder: (context, index) {
-            return CupertinoTabView(
-              builder: (_) {
-                // Her sekme içeriği için farklı widget döndür
-                return widget.navigationShell;
-                // return screens[widget.navigationShell.currentIndex];
-              },
-            );
+          material3: (context, platform) => MaterialNavigationBarData(
+            backgroundColor: Colors.white,
+            elevation: 1,
+            surfaceTintColor: Colors.black,
+            indicatorColor: Colors.white,
+          ),
+          itemChanged: (int tappedIndex) async {
+            if (widget.navigationShell.currentIndex == tappedIndex) {
+              String routePath = "";
+              switch (tappedIndex) {
+                case 0:
+                  routePath = RouterService.routes.home;
+                  break;
+                case 1:
+                  routePath = RouterService.routes.search;
+                  break;
+                case 2:
+                  routePath = RouterService.routes.profile;
+                  break;
+              }
+
+              RouterService.goNamed(
+                context: context,
+                route: routePath,
+              );
+            } else {
+              widget.navigationShell.goBranch(tappedIndex);
+            }
           },
+          currentIndex: widget.navigationShell.currentIndex,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: bottomBarIconWidget(
+                context: context,
+                icon: Icons.home,
+                index: 0,
+              ),
+              label: 'Anasayfa',
+            ),
+            BottomNavigationBarItem(
+              icon: bottomBarIconWidget(
+                context: context,
+                icon: Icons.search,
+                index: 1,
+              ),
+              label: 'Ara',
+            ),
+            BottomNavigationBarItem(
+              icon: bottomBarIconWidget(
+                context: context,
+                icon: Icons.account_circle,
+                index: 2,
+              ),
+              label: 'Profil',
+            ),
+          ],
         ),
       ),
     );

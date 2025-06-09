@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:kan_kardesi/models/blood/blood_type_model.dart';
+import 'package:kan_kardesi/models/location/city_model.dart';
 import 'package:kan_kardesi/services/router/route_constants.dart';
 import 'package:kan_kardesi/services/router/router_service.dart';
 import 'package:kan_kardesi/utils/helpers/helpers.dart';
@@ -11,6 +12,7 @@ import 'package:provider/provider.dart';
 mixin RegisterMixin {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   BloodTypeModel? selectedBloodType;
+  CityModel? selectedCity;
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -48,7 +50,22 @@ mixin RegisterMixin {
       return;
     }
 
-    formKey.currentState!.save();
+    if (selectedBloodType == null) {
+      Helpers.showAlertSnackBar(
+        context,
+        "Lütfen kan grubunuzu seçin",
+      );
+      return;
+    }
+
+    if (selectedCity == null) {
+      Helpers.showAlertSnackBar(
+        context,
+        "Lütfen şehir seçin",
+      );
+      return;
+    }
+
     AuthViewModel authViewModel = Provider.of<AuthViewModel>(
       context,
       listen: false,
@@ -56,6 +73,8 @@ mixin RegisterMixin {
 
     bool status = await authViewModel.register(
       context,
+      bloodType: selectedBloodType!,
+      city: selectedCity!,
       name: nameController.text,
       phoneNumber: phoneNumberController.text.substring(
         4,
@@ -64,12 +83,13 @@ mixin RegisterMixin {
       email: emailController.text,
       password: passwordController.text,
       passwordConfirmation: rePasswordController.text,
-      bloodType: selectedBloodType!,
     );
 
     if (status == false) {
       return;
     }
+
+    formKey.currentState!.save();
 
     RouterService.goNamed(
       context: context,

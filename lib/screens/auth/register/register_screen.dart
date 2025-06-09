@@ -4,10 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:kan_kardesi/models/blood/blood_type_model.dart';
+import 'package:kan_kardesi/models/location/city_model.dart';
 import 'package:kan_kardesi/screens/auth/register/register_mixin.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
 import 'package:kan_kardesi/utils/components/app/custom_card_widget.dart';
-import 'package:kan_kardesi/utils/components/blood/blood_selector_widget.dart';
+import 'package:kan_kardesi/utils/components/selector/blood/blood_selector_widget.dart';
+import 'package:kan_kardesi/utils/components/selector/city/city_selector_widget.dart';
 import 'package:kan_kardesi/utils/constants/image/image_constants.dart';
 import 'package:kan_kardesi/utils/enums/reponse_status_enums.dart';
 import 'package:kan_kardesi/utils/helpers/helpers.dart';
@@ -140,6 +142,34 @@ class _RegisterScreenState extends State<RegisterScreen> with RegisterMixin {
               ),
               onSelected: (BloodTypeModel type) {
                 selectedBloodType = type;
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            "Şehir",
+            style: Theme.of(context)
+                .textTheme
+                .bodySmall!
+                .copyWith(color: Colors.black),
+          ),
+          const SizedBox(height: 4),
+          CustomCard(
+            child: CitySelectorWidget(
+              selectedCity: selectedCity,
+              useDecoration: false,
+              textStyle: TextStyle(
+                fontSize: Platform.isIOS
+                    ? Theme.of(context).textTheme.titleMedium?.fontSize
+                    : 14,
+                fontWeight: Platform.isAndroid ? FontWeight.w500 : null,
+                color: Platform.isIOS
+                    ? CupertinoColors.tertiaryLabel
+                    : Colors.black45,
+              ),
+              onSelected: (CityModel city) {
+                selectedCity = city;
                 FocusScope.of(context).requestFocus(FocusNode());
               },
             ),

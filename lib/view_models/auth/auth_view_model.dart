@@ -1,8 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kan_kardesi/core/base/view_model/base_view_model.dart';
 import 'package:kan_kardesi/models/blood/blood_type_model.dart';
+import 'package:kan_kardesi/models/location/city_model.dart';
 import 'package:kan_kardesi/models/user/user_model.dart';
 import 'package:kan_kardesi/repositories/user/user_repository.dart';
 import 'package:kan_kardesi/utils/constants/global_variables/global_variables.dart';
@@ -15,6 +17,11 @@ class AuthViewModel extends BaseViewModel {
   UserRepository userRepository = UserRepository();
   String? fcmToken;
   UserModel? userModel;
+
+  set setUserModel(UserModel? user) {
+    userModel = user;
+    notifyListeners();
+  }
 
   Future<UserModel?> login(
     BuildContext context, {
@@ -56,12 +63,13 @@ class AuthViewModel extends BaseViewModel {
 
   Future<bool> register(
     BuildContext context, {
+    required BloodTypeModel bloodType,
+    required CityModel city,
     required String name,
     required String phoneNumber,
     required String email,
     required String password,
     required String passwordConfirmation,
-    required BloodTypeModel bloodType,
   }) async {
     try {
       changeApiStatus(ResponseStatus.loading);
@@ -75,6 +83,7 @@ class AuthViewModel extends BaseViewModel {
         "phone_number": phoneNumber,
         "password": Helpers.stringToMd5(password),
         "blood_type": bloodType.id.toString(),
+        "city": city.id.toString(),
       };
 
       userModel = await userRepository.register(
@@ -122,5 +131,92 @@ class AuthViewModel extends BaseViewModel {
     GlobalVariables.userModel = null;
     userModel = null;
     return status;
+  }
+
+  Future<bool> updateProfile(
+    BuildContext context, {
+    required BloodTypeModel bloodType,
+    required CityModel city,
+    required String name,
+    required String phone,
+    required String email,
+  }) async {
+    try {
+      changeApiStatus(ResponseStatus.loading);
+
+      var payload = {
+        "blood_type_id": bloodType.id.toString(),
+        "city_id": city.id.toString(),
+        "name": name,
+        "email": email,
+        "phone_number": phone.substring(4, phone.length),
+      };
+
+      UserModel? model = await userRepository.updateProfile(
+        context: context,
+        payload: payload,
+      );
+
+      if (userModel != null) {
+        setUserModel = model;
+        Helpers.showSuccessSnackBar(
+          context,
+          "Profil bilgileri başarıyla güncellendi.",
+        );
+      } else {
+        Helpers.showAlertSnackBar(
+          context,
+          "Profil bilgileri güncellenemedi.",
+        );
+      }
+
+      changeApiStatus(ResponseStatus.successful);
+      notifyListeners();
+      return userModel == null ? false : true;
+    } catch (e) {
+      changeApiStatus(ResponseStatus.successful);
+      return false;
+    }
+  }
+
+  Future<bool> updatePassword(
+    BuildContext context, {
+    required String password,
+    required String newPassword,
+    required String reNewPassword,
+  }) async {
+    try {
+      changeApiStatus(ResponseStatus.loading);
+
+      var payload = {
+        "old_password": Helpers.stringToMd5(password),
+        "new_password": Helpers.stringToMd5(newPassword),
+      };
+
+      UserModel? model = await userRepository.updatePassword(
+        context: context,
+        payload: payload,
+      );
+
+      if (model != null) {
+        setUserModel = model;
+        Helpers.showSuccessSnackBar(
+          context,
+          "Parola başarıyla güncellendi.",
+        );
+      } else {
+        Helpers.showAlertSnackBar(
+          context,
+          "Parola güncellenirken bir problem oluştu.",
+        );
+      }
+
+      changeApiStatus(ResponseStatus.successful);
+      notifyListeners();
+      return model == null ? false : true;
+    } catch (e) {
+      changeApiStatus(ResponseStatus.successful);
+      return false;
+    }
   }
 }

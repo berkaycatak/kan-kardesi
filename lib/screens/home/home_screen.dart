@@ -5,8 +5,11 @@ import 'package:kan_kardesi/services/router/route_constants.dart';
 import 'package:kan_kardesi/services/router/router_service.dart';
 import 'package:kan_kardesi/style/theme/custom_theme.dart';
 import 'package:kan_kardesi/utils/components/app/custom_appbar_widget.dart';
+import 'package:kan_kardesi/utils/constants/global_variables/global_variables.dart';
 import 'package:kan_kardesi/utils/widgets/blog/blog_widget.dart';
 import 'package:kan_kardesi/utils/widgets/donation/donation_card_widget.dart';
+import 'package:kan_kardesi/view_models/auth/auth_view_model.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -116,6 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   SizedBox welcomeWidget(BuildContext context) {
+    AuthViewModel authViewModel = Provider.of<AuthViewModel>(context);
     return SizedBox(
       width: double.infinity,
       child: Card(
@@ -126,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                "Merhaba Berkay,",
+                "Merhaba ${authViewModel.userModel!.name!},",
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 4),

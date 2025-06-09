@@ -21,7 +21,7 @@ class Helpers {
     showSnackBar(
       context: context,
       text: text,
-      color: CustomTheme.primaryColor,
+      color: Colors.green,
     );
   }
 
@@ -34,8 +34,8 @@ class Helpers {
       toastification.show(
         context: context, // optional if you use ToastificationWrapper
         description: Text(text),
-        primaryColor: color,
-        foregroundColor: context.isDarkMode() ? Colors.white : null,
+        primaryColor: Colors.white,
+        foregroundColor: Colors.white,
         backgroundColor: color,
         alignment: Alignment.bottomCenter,
         autoCloseDuration: const Duration(seconds: 4),

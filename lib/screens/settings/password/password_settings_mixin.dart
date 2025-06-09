@@ -1,5 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kan_kardesi/utils/helpers/helpers.dart';
+import 'package:kan_kardesi/view_models/auth/auth_view_model.dart';
+import 'package:provider/provider.dart';
 
 mixin PasswordSettingsMixin {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -28,18 +33,35 @@ mixin PasswordSettingsMixin {
     return null;
   }
 
-  void updatePassword(BuildContext context) {
+  Future<void> updatePassword(BuildContext context) async {
     bool isValidated = formKey.currentState!.validate();
     if (!isValidated) {
       return;
     }
 
     if (passwordController.text != rePasswordController.text) {
-      // Show error in textfield
-
+      Helpers.showAlertSnackBar(
+        context,
+        "Parolalarınız uyuşmuyor.",
+      );
       return;
     }
+
+    AuthViewModel authViewModel = Provider.of<AuthViewModel>(
+      context,
+      listen: false,
+    );
+
+    bool status = await authViewModel.updatePassword(
+      context,
+      password: oldPasswordController.text,
+      newPassword: passwordController.text,
+      reNewPassword: rePasswordController.text,
+    );
+
+    if (status) {
+      context.pop();
+    }
     formKey.currentState!.save();
-    // Update password
   }
 }
