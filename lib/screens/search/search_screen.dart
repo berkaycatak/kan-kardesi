@@ -194,9 +194,13 @@ class _SearchScreenState extends State<SearchScreen> with SearchMixin {
                       decoration: selectorDecoration(),
                       child: PlatformTextFormField(
                         controller: descriptionController,
-                        hintText: "Açıklama Girin (Opsiyonel)",
+                        hintText: "Açıklama Girin",
                         minLines: 1,
                         maxLines: 3,
+                        validator: (value) => Helpers.isEmpty(
+                          value,
+                          "Lütfen ilan ile ilgili detayları girin.",
+                        ),
                         cupertino: (context, platform) =>
                             CupertinoTextFormFieldData(
                           placeholderStyle: const TextStyle(

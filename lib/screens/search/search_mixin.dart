@@ -117,6 +117,7 @@ mixin SearchMixin {
 
     unitController.text = "";
     descriptionController.text = "";
+
     RouterService.goNamed(
       context: context,
       route: RouterService.routes.profile,
